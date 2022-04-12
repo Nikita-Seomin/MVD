@@ -1,25 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
+import DynamicRequestsTable from "./Components/RequestTable/DynamicRequestsTable";
+import {BrowserRouter, Route} from "react-router-dom";
+import {Routes} from "react-router";
+import Navigation from "./Components/NavigationPage/Navigation";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App(props) {
+    return (
+        <BrowserRouter>
+            <div>
+                <Routes>
+                    <Route path='' element={ <Navigation/> } />
+                    <Route path='/requestsTable' element={<DynamicRequestsTable tableRows={props.state.tableData.tableRows } />} />
+                </Routes>
+            </div>
+        </BrowserRouter>
+    );
 }
 
 export default App;
