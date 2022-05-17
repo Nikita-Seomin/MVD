@@ -30,20 +30,30 @@ class authController {
                 });
             },
 
-            //generate token and delete token if exists
+            //generate token and update token or INSERT IF NOT EXISTS
             function (id, callback) {
                 let token = generateAccessToken(id);
-                let sql = "INSERT INTO MVDBD.ActiveTokens (UserID) VALUES('" + id + "') ";
-                console.log(sql);
-                connection.query(sql,[login,password],(err, results) => {
+                let sql = "REPLACE INTO MVDBD.ActiveTokens (ActiveToken, UserID) VALUES('" + token + "', '" + id + "') ";
+                connection.query(sql,(err, results) => {
                     if (err)
-                        return callback(new Error('INSERT error when you search id in ActiveTokens Table and INSERT IF EXISTS'));
-                    callback(null, results);
+                        return callback(new Error('REPLACE error when you add token'));
+                    res.cookie("token", token);
+                    callback(null,id);
                 });
                 //TODO созранит токен в бд и если ве зае.ись то вернуть в куки [
                 // структура бд будет пользователь : токен
+            },
+            function (id, callback) {
+                let sql = "SELECT UserName FROM MVDBD.Users WHERE Users.idUsers='"+ id + "'";
+                connection.query(sql,(err, results) => {
+                    if (err)
+                        return callback(new Error('SELECT UserName error'));
+                    if (results.length === 0)
+                        return callback(new Error('Имя пользователя не найдено'))
+                    callback(null,results[0]);
+                });
             }
-        ], function (err, result) {
+        ], function (err,result) {
             connection.end();
             if (err) {
                 res.send(err.message);
@@ -53,5 +63,4 @@ class authController {
 
     }
 }
-
 module.exports = new authController();
