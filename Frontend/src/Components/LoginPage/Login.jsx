@@ -21,7 +21,7 @@ const validationSchemaLoginForm = Yup.object().shape( {
 } );
 
 
-const Login = () => {
+const Login = (props) => {
 
     return (
         <div>
@@ -36,8 +36,10 @@ const Login = () => {
                 validationSchema={validationSchemaLoginForm}
                 onSubmit={(values) => {
                     loginAxiosAPI.postSession(values.email, values.password).then(data => {
-                        if (data.UserName) alert(data.UserName);
-                        else alert(data);
+                        if (data.UserName)
+                            props.postUserName(data.UserName);
+                        else
+                            alert(data);
                     });
                 }}
             >
@@ -49,7 +51,7 @@ const Login = () => {
                                 value={props.values.login}
                                 onChange={props.handleChange}
                                 type={'text'}
-                                placeholder={'e-mail'} />
+                                placeholder={'Логин'} />
                         </div>
                         <ErrorMessage name="email" component="div" />
 
@@ -59,7 +61,7 @@ const Login = () => {
                                 value={props.values.password}
                                 onChange={props.handleChange}
                                 type={'password'}
-                                placeholder={'password'} />
+                                placeholder={'Пароль'} />
                         </div>
                         <ErrorMessage name="password" component="div" />
 
