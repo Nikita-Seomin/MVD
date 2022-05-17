@@ -57,7 +57,7 @@ class authController {
         ], function (err,result) {
             connection.end();
             if (err) {
-                res.send('err' + err.message);
+                res.send(err.message);
             }
             res.send(result);
         });

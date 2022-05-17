@@ -1,11 +1,12 @@
-import {combineReducers,  legacy_createStore as createStore} from "redux";
-import LoginReducer from "./Reducers/LoginReducer";
+import {combineReducers, configureStore, legacy_createStore as createStore} from "@reduxjs/toolkit";
+import authSlice from "./Reducers/Login/LoginReducer";
 
 let reducers = combineReducers({
-    loginPage: LoginReducer,
+    loginPage: authSlice,
 });
 
+export const store = configureStore({
+    reducer: reducers
+})
 
-let store = createStore(reducers);
 window.store = store;
-export default store;

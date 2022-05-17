@@ -1,6 +1,4 @@
 import {connect} from "react-redux";
-import {onLoginChange, onPasswordChange} from "../../Data/Reducers/LoginReducer";
-import Auth from "./Auth";
 import Login from "./Login";
 
 
