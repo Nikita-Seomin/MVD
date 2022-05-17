@@ -1,4 +1,5 @@
 import React from 'react';
+import classes from "./Login.module.css"
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from "yup";
 import {loginAxiosAPI} from "../../AxiosAPI/AxiosAPI";
@@ -12,21 +13,19 @@ const validateLoginForm = values => {
     return errors;
 };
 
-const validationSchemaLoginForm = Yup.object().shape( {
+const validationSchemaLoginForm = Yup.object().shape({
 
     password: Yup.string()
-        .min( 0, "Поле должно содержать символы" )
-        .max( 30, "Поле не должно быть больше 30 символов" )
-        .required( "Поле должно содержать символы" )
-} );
+        .min(0, "Поле должно содержать символы")
+        .max(30, "Поле не должно быть больше 30 символов")
+        .required("Поле должно содержать символы")
+});
 
 
 const Login = (props) => {
 
     return (
         <div>
-            <h2> ... Login 555 </h2>
-
             <Formik
                 initialValues={{
                     email: "",
@@ -44,28 +43,33 @@ const Login = (props) => {
                 }}
             >
                 {props => (
-                    <Form onSubmit={props.handleSubmit}>
-                        <div>
+                    <Form onSubmit={props.handleSubmit} className={classes.login} >
+                        <p>
+                            <label htmlFor="login">Логин:</label>
                             <Field
+                                id={classes.login}
                                 name={'email'}
                                 value={props.values.login}
                                 onChange={props.handleChange}
                                 type={'text'}
-                                placeholder={'Логин'} />
-                        </div>
-                        <ErrorMessage name="email" component="div" />
+                                placeholder={'Логин'}/>
+                        </p>
+                        <ErrorMessage name="email" component="div"/>
 
-                        <div>
+                        <p>
+                            <label htmlFor="password">Пароль:</label>
                             <Field
+                                id={classes.password}
                                 name={'password'}
                                 value={props.values.password}
                                 onChange={props.handleChange}
                                 type={'password'}
-                                placeholder={'Пароль'} />
-                        </div>
-                        <ErrorMessage name="password" component="div" />
-
-                        <button type={'submit'}>Login</button>
+                                placeholder={'Пароль'}/>
+                        </p>
+                        <ErrorMessage name="password" component="div"/>
+                        <p className={classes.login_submit}>
+                            <button type={'submit'} className={classes.login_button}>Login</button>
+                        </p>
                     </Form>
                 )}
             </Formik>

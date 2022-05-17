@@ -4,7 +4,7 @@ import {createSlice} from "@reduxjs/toolkit";
 const authSlice =  createSlice({
     name: "authSlice",
     initialState: {
-        userName: 'qwer'
+        userName: ''
     },
     reducers: {
         postUserName: function (state, action) {
