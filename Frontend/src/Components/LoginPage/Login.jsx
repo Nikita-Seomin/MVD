@@ -1,6 +1,7 @@
 import React from 'react';
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import * as Yup from "yup";
+import {loginAxiosAPI} from "../../AxiosAPI/AxiosAPI";
 
 
 const validateLoginForm = values => {
@@ -34,7 +35,10 @@ const Login = () => {
                 validate={validateLoginForm}
                 validationSchema={validationSchemaLoginForm}
                 onSubmit={(values) => {
-
+                    loginAxiosAPI.postSession(values.email, values.password).then(data => {
+                        if (data.UserName) alert(data.UserName);
+                        else alert(data);
+                    });
                 }}
             >
                 {props => (
