@@ -1,7 +1,7 @@
 const mysql = require("mysql2");
-const {dbConfig} = require("../../Settings");
+const {dbConfig, config} = require("../../Settings");
 const jwt = require("jsonwebtoken");
-const {config} = require("./../../Settings")
+const bcrypt = require("bcryptjs")
 const async = require("async");
 
 const generateAccessToken = (id) => {
@@ -20,11 +20,11 @@ class authController {
 
             //check Login and password
             function (callback) {
-                let sql = "SELECT idLogIn FROM MVDBD.LogIn WHERE LogIn.login= ? AND LogIn.password= ? ";
-                connection.query(sql, [login, password], (err, results) => {
+                let sql = "SELECT idLogIn , password FROM MVDBD.LogIn WHERE LogIn.login= ?";
+                connection.query(sql, [login], (err, results) => {
                     if (err)
                         return callback(new Error('SELECT error when you check login and password'));
-                    else if (results.length === 0)
+                    else if (results.length === 0 || !bcrypt.compareSync(password, results[0]["password"]))
                         return callback(new Error("Пароль или логин не найдны"));
                     callback(null, results[0]["idLogIn"]);
                 });

@@ -7,6 +7,7 @@ let dbConfig = {
 module.exports.dbConfig = dbConfig;
 
 let config = {
-    "secret" : "KEY"
+    "secret" : "KEY",
+    "sold" : 7
 }
 module.exports.config = config;
