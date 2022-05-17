@@ -1,6 +1,7 @@
 import {connect} from "react-redux";
 import {onLoginChange, onPasswordChange} from "../../Data/Reducers/LoginReducer";
 import Auth from "./Auth";
+import Login from "./Login";
 
 
 let mapStateToProps = (state) => {
@@ -10,5 +11,5 @@ let mapStateToProps = (state) => {
     }
 }
 
-const AuthContainer = connect(mapStateToProps, {onLoginChange , onPasswordChange }) (Auth);
+const AuthContainer = connect() (Login);
 export default AuthContainer;

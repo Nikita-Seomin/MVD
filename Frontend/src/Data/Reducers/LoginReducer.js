@@ -1,6 +1,4 @@
 import keyMirror from "./../../Constants/ReducerConst";
-let UPDATE_LOGIN_TEXT = 'UPDATE_LOGIN_TEXT'
-let UPDATE_PASSWORD_TEXT = "UPDATE_PASSWORD_TEXT"
 
 const initialState = {
     loginText: '',
@@ -9,7 +7,6 @@ const initialState = {
 }
 
 const profileReducer = (state = initialState, action) => {
-    console.log(state.passwordText)
     switch (action.type){
         case keyMirror.UPDATE_LOGIN_TEXT:
             return {

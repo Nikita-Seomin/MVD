@@ -40,9 +40,9 @@ class authController {
                     res.cookie("token", token);
                     callback(null,id);
                 });
-                //TODO созранит токен в бд и если ве зае.ись то вернуть в куки [
-                // структура бд будет пользователь : токен
             },
+
+            //search userName on ID
             function (id, callback) {
                 let sql = "SELECT UserName FROM MVDBD.Users WHERE Users.idUsers='"+ id + "'";
                 connection.query(sql,(err, results) => {

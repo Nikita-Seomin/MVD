@@ -2,9 +2,10 @@ import {combineReducers,  legacy_createStore as createStore} from "redux";
 import LoginReducer from "./Reducers/LoginReducer";
 
 let reducers = combineReducers({
-    loginPage: LoginReducer
+    loginPage: LoginReducer,
 });
 
-let store = createStore(reducers);
 
+let store = createStore(reducers);
+window.store = store;
 export default store;
