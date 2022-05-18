@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
-import classes from './Navigation.css';
+import classes from './Navigation.module.css';
 import {getLogin} from "../../RequestToServer/AuthReq";
 
 let loginTemp = getLogin();

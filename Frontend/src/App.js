@@ -2,7 +2,7 @@ import React from 'react';
 import {Route} from "react-router-dom";
 import {Routes} from "react-router";
 import state from "./Data/data";
-import {AuthContainer} from "./Components/LoginPage/AuthContainer";
+import AuthContainer from "./Components/LoginPage/AuthContainer";
 import Navigation from "./Components/NavigationPage/Navigation";
 import DynamicRequestsTable from "./Components/RequestTable/DynamicRequestsTable";
 

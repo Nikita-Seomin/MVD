@@ -9,7 +9,7 @@ const authSlice =  createSlice({
     reducers: {
         postUserName: function (state, action) {
             state.userName = action.payload
-            alert(state.userName);
+            //alert(state.userName);
         }
     }
 })
