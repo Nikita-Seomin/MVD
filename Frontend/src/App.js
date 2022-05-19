@@ -4,7 +4,7 @@ import {Routes} from "react-router";
 import state from "./Data/data";
 import AuthContainer from "./Components/LoginPage/AuthContainer";
 import Navigation from "./Components/NavigationPage/Navigation";
-import DynamicRequestsTable from "./Components/RequestTable/DynamicRequestsTable";
+import {DynamicRequestsTable} from "./Components/RequestTable/DynamicRequestsTable";
 
 const App = () => {
     return (

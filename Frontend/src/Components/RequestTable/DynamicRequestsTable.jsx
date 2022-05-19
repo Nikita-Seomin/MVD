@@ -1,26 +1,66 @@
-import React from 'react';
-import {RowElement} from "./DynamicTableElements/RowElement";
+import React, {useMemo} from 'react';
+import {useTable} from "react-table";
+import {COLUMNS_GROUP} from "./DynamicTableElements/ColElement";
+import classes from './ReqTable.module.css'
 
 
-const DynamicRequestsTable = (props) => {
 
-    let rowElements = props.tableRows.map(tre => <RowElement tableCol={tre.tableCol} />);
+const DATA = [
+
+]
+
+
+
+
+export const DynamicRequestsTable = () => {
+
+    const columns = useMemo(() => COLUMNS_GROUP, [])
+    const data = useMemo(() => DATA, [])
+
+    const reqTable = useTable({
+        columns,
+        data
+    })
+
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow
+    } = reqTable
 
     return (
-        <div>
-            <table id="dynamic" width="650" border="1" cellSpacing="0" cellPadding="5">
-                <tr>
-                    <th scope="col">Поле 1</th>
-                    <th scope="col">Поле 2</th>
-                    <th scope="col">Поле 3</th>
-                    <th scope="col">Поле 4</th>
-                    <th scope="col">&nbsp;</th>
+        <table {...getTableProps()}>
+            <thead>
+            {headerGroups.map((headerGroups) => (
+                <tr {...headerGroups.getHeaderGroupProps()}>
+                    {headerGroups.headers.map((column) => (
+                        <th{...column.getHeaderProps()}>{column.render('Header')}</th>
+                        ))}
                 </tr>
-                {rowElements}
-            </table>
-        </div>
-    );
+            ))}
+
+            </thead>
+            <tbody {...getTableBodyProps}>
+            { rows.map(row => {
+                    prepareRow(row)
+                    return (
+                        <tr {...row.getRowProps()}>
+                            {row.cells.map((cell) => {
+                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                })}
+                        </tr>
+                    )
+                })
+            }
+
+            </tbody>
+
+        </table>
+    )
+
 }
 
-export default DynamicRequestsTable;
+
 
