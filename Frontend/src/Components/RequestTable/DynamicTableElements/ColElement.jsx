@@ -1,14 +1,24 @@
-export const COLUMNS_GROUP = [
+import {Button, Input} from "@material-ui/core";
+
+export const COLUMNS = [
     {
         Header: 'Номер по порядку',
         accessor: 'ReqTable'
+    }
+]
+
+
+export const COLUMNS_GROUP = [
+    {
+        Header: 'Номер по порядку',
+        accessor: 'idReqTable'
     },
     {
         Header: 'Кусп направившего территориального округа',
         accessor: 'ReqCUSP',
         columns:
         [
-            { Header: '№' , accessor: 'ReqCUSP№' },
+            { Header: '№' , accessor: 'ReqCUSPNum' },
             { Header: 'дата' , accessor: 'ReqCUSPData' }
         ]
     },
@@ -51,4 +61,24 @@ export const COLUMNS_GROUP = [
                 { Header: 'дата' , accessor: 'RequestToData' }
             ]
     },
+    {
+        Header: "Изменить",
+        render: (_, record) => {
+            return (
+                <>
+                    <Button
+                        type="link"
+                        onClick={() => {
+
+                        }}
+                    >
+                        Edit
+                    </Button>
+                    <Button type="link" htmlType="submit">
+                        Save
+                    </Button>
+                </>
+            );
+        }
+    }
 ]
