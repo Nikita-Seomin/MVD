@@ -20,3 +20,12 @@ Table th {
     background-color: #04AA6D;
     color: white;
 }
+
+input {
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+
