@@ -1,27 +1,39 @@
 import React, {useMemo} from 'react';
 import {useState} from 'react/cjs/react.development';
-import {useTable, useSortBy, useRowState} from "react-table";
+import {useTable, useSortBy} from "react-table";
 //import {COLUMNS_GROUP, COLUMNS} from "./DynamicTableElements/ColElement";
 import classes from './ReqTable.module.css'
 
 
 const DATA = [
     {
+        idReqTable: 0,
+        ReqCUSPNum: 22,
+        ReqCUSPData: 1234
+    },
+    {
         idReqTable: 1,
         ReqCUSPNum: 22,
         ReqCUSPData: 1234
+    },
+    {
+        idReqTable: 2,
+        ReqCUSPNum: 22,
+        ReqCUSPData: 1234
+    },
+    {
+        idReqTable: 3
     }
 ]
 
 
 export const DynamicRequestsTable = () => {
-
-
-    const [editingRow, setEditingRow] = useState(false);
     const [data, setData] = React.useState(DATA);
 
 
-
+    const [editingRow, setEditingRow] = useState(Array(data.length).fill({ id: false} )); //требуется ререндер для обновления
+    //console.log(editingRow);
+    //console.log(editingRow[0]);
 
     const COLUMNS_GROUP = [
         {
@@ -31,6 +43,7 @@ export const DynamicRequestsTable = () => {
         {
             Header: 'Кусп направившего территориального округа',
             accessor: 'ReqCUSP',
+
             columns:
                 [
                     {Header: '№', accessor: 'ReqCUSPNum'},
@@ -75,65 +88,37 @@ export const DynamicRequestsTable = () => {
                     {Header: 'исходный №', accessor: 'RequestTo№'},
                     {
                         Header: 'дата',
-                        accessor: 'RequestToData'
+                        //accessor: 'RequestToData',
+                        accessor: (row) => {
+                                //console.log(editingRow[row.idReqTable]);
+                                if (editingRow[row.idReqTable].id) {
+                                    return <input/>
+                                }
+                                return row.idReqTable
+                        }
                     }
                 ]
         },
         {
             Header: "Изменить",
-            accessor: '[editButton]',
+            accessor: (row) => {
+                const onClick = () => {
+                    let newEditingRow = [...editingRow];
+                    newEditingRow[row.idReqTable] = {id: true};
+                    setEditingRow(newEditingRow)
+                }
+
+                return (<>
+                <button onClick={onClick}>
+                    edit
+                </button>
+                    </>
+            )
+            }
 
         }
     ]
-    const columns = useMemo(() => COLUMNS_GROUP, [])
-
-    const updateMyData = (rowIndex, columnId, value) => {
-        // We also turn on the flag to not reset the page
-        setData(old =>
-            old.map((row, index) => {
-                if (index === rowIndex) {
-                    return {
-                        ...old[rowIndex],
-                        [columnId]: value,
-                    }
-                }
-                return row
-            })
-        )
-    }
-
-
-
-    const EditableCell = ({
-                              value: initialValue,
-                              row: { index },
-                              column: { id },
-                              updateMyData, // This is a custom function that we supplied to our table instance
-                          }) => {
-        // We need to keep and update the state of the cell normally
-        const [value, setValue] = React.useState(initialValue)
-
-        const onChange = e => {
-            setValue(e.target.value)
-        }
-
-        // We'll only update the external data when the input is blurred
-        const onBlur = () => {
-            updateMyData(index, id, value)
-        }
-
-        // If the initialValue is changed external, sync it up with our state
-        React.useEffect(() => {
-            setValue(initialValue)
-        }, [initialValue])
-
-        return <input value={value} onChange={onChange} onBlur={onBlur} />
-    }
-
-// Set our editable cell renderer as the default Cell renderer
-    const defaultColumn = {
-        Cell: EditableCell,
-    }
+    const columns = useMemo(() => COLUMNS_GROUP, [editingRow])
 
 
     const {
@@ -145,9 +130,6 @@ export const DynamicRequestsTable = () => {
     } = useTable({
             columns,
             data,
-            defaultColumn,
-            updateMyData
-
         },
         useSortBy,
     )
