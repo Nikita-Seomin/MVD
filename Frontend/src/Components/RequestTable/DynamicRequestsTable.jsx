@@ -7,22 +7,18 @@ import classes from './ReqTable.module.css'
 
 const DATA = [
     {
-        idReqTable: 0,
         ReqCUSPNum: 22,
         ReqCUSPData: 1234
     },
     {
-        idReqTable: 1,
         ReqCUSPNum: 22,
         ReqCUSPData: 1234
     },
     {
-        idReqTable: 2,
         ReqCUSPNum: 22,
         ReqCUSPData: 1234
     },
     {
-        idReqTable: 3
     }
 ]
 
@@ -88,23 +84,24 @@ export const DynamicRequestsTable = () => {
                     {Header: 'исходный №', accessor: 'RequestTo№'},
                     {
                         Header: 'дата',
+                        id: 'RequestToData',
                         //accessor: 'RequestToData',
-                        accessor: (row) => {
+                        accessor: (originalRow, rowIndex) => {
                                 //console.log(editingRow[row.idReqTable]);
-                                if (editingRow[row.idReqTable].id) {
+                                if (editingRow[rowIndex].id) {
                                     return <input/>
                                 }
-                                return row.idReqTable
+                                return rowIndex
                         }
                     }
                 ]
         },
         {
             Header: "Изменить",
-            accessor: (row) => {
+            accessor: (originalRow, rowIndex) => {
                 const onClick = () => {
                     let newEditingRow = [...editingRow];
-                    newEditingRow[row.idReqTable] = {id: true};
+                    newEditingRow[rowIndex] = {id: true};
                     setEditingRow(newEditingRow)
                 }
 
@@ -113,9 +110,8 @@ export const DynamicRequestsTable = () => {
                     edit
                 </button>
                     </>
-            )
+                )
             }
-
         }
     ]
     const columns = useMemo(() => COLUMNS_GROUP, [editingRow])
@@ -134,7 +130,7 @@ export const DynamicRequestsTable = () => {
         useSortBy,
     )
 
-    return (
+    return (<>
         <table {...getTableProps()}>
             <thead>
             {headerGroups.map((headerGroups) => (
@@ -166,6 +162,7 @@ export const DynamicRequestsTable = () => {
             })}
             </tbody>
         </table>
+        </>
     )
 
 }

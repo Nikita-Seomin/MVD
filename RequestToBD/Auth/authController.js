@@ -8,7 +8,7 @@ const generateAccessToken = (id) => {
     const payload = {
         id
     }
-    return jwt.sign(payload, config.secret, {expiresIn: "1h"});
+    return jwt.sign(payload, config.secret, {expiresIn: "3h"});
 
 }
 
@@ -21,7 +21,7 @@ class authController {
 
             //check Login and password
             function (callback) {
-                let sql = "SELECT idLogIn , password FROM MVDBD.LogIn WHERE LogIn.login= ?";
+                let sql = "SELECT idLogIn , password FROM LogIn WHERE login= ?";
                 connection.query(sql, [login], (err, results) => {
                     if (err)
                         return callback(new Error('SELECT error when you check login and password'));
@@ -34,7 +34,7 @@ class authController {
             //generate token and update token or INSERT IF NOT EXISTS
             function (id, callback) {
                 let token = generateAccessToken(id);
-                let sql = "REPLACE INTO MVDBD.ActiveTokens (ActiveToken, UserID) VALUES('" + token + "', '" + id + "') ";
+                let sql = "REPLACE INTO ActiveTokens (ActiveToken, UserID) VALUES('" + token + "', '" + id + "') ";
                 connection.query(sql,(err, results) => {
                     if (err)
                         return callback(new Error('REPLACE error when you add token'));
@@ -45,7 +45,7 @@ class authController {
 
             //search userName on ID
             function (id, callback) {
-                let sql = "SELECT UserName FROM MVDBD.Users WHERE Users.idUsers='"+ id + "'";
+                let sql = "SELECT UserName FROM Users WHERE idUsers='"+ id + "'";
                 connection.query(sql,(err, results) => {
                     if (err)
                         return callback(new Error('SELECT UserName error'));
