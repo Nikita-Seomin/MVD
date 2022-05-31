@@ -9,7 +9,7 @@ let Navigation = () => {
 
     return (
         <nav className={classes.nav}>
-            <NavLink to={"/requestsTable"}>qwe</NavLink>
+            <NavLink to={"/requestsTable"} >qwe</NavLink>
         </nav>
     )
 

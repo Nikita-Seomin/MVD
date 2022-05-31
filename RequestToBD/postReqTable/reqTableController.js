@@ -10,8 +10,8 @@ class reqTableController {
             userName,
             CUSPNum, CUSPDate,
             Region,
-            couponNum,
             DivisionWhereMaterialSent,
+            couponNum,
             letNumber, letNumberDate,
             registryNum, registryNumDate,
             divisionNum, divisionNumDate,
@@ -32,42 +32,30 @@ class reqTableController {
                 });
             },
 
-            //search id request path
-            function (id, callback) {
-                let sql = "SELECT idTableInfo FROM tableInfo WHERE dataOwner='"+ id + "' ";
-                connection.query(sql,(err, results) => {
-                    if (err)
-                        return callback(new Error('ELECT error when you search id request path'));
-                    else if (results.length === 0 )
-                        return callback(new Error("Не найдена таблица запросов у этого пользователя"));
-                    callback(null,results[0]["idTableInfo"]);
-                });
-            },
-
 
             //------------------------------INSERTS IF NOT EXISTS----------------------------
 
             //add CUSP
-            function (idTableInfo, callback) {
+            function (idUser, callback) {
 
-                let sql = "INSERT INTO WhoAndWhenSend (CUSPNum, date)" +
-                    "SELECT ?, ? FROM DUAL " +
-                    "WHERE NOT EXISTS (SELECT * FROM WhoAndWhenSend " +
-                    "WHERE CUSPNum=? AND date=? LIMIT 1)";
+                let sql = "INSERT INTO CUSP (CUSP)" +
+                    "SELECT ? FROM DUAL " +
+                    "WHERE NOT EXISTS (SELECT * FROM CUSP " +
+                    "WHERE CUSP=? LIMIT 1)";
 
                 connection.query(sql,
-                    [CUSPNum, CUSPDate,CUSPNum, CUSPDate],
+                    [CUSPNum, CUSPNum],
                     (err, results) => {
                     if (err)
                         return callback(new Error('REPLACE CUSP error'));
                     if (results.length === 0)
                         return callback(new Error(''))
-                    callback(null,idTableInfo);
+                    callback(null,idUser);
                 });
             },
 
             //add Region
-            function (idTableInfo, callback) {
+            function (idUser, callback) {
 
                 let sql = "INSERT INTO Region (region)" +
                     "SELECT ? FROM DUAL " +
@@ -79,12 +67,12 @@ class reqTableController {
                         return callback(new Error('REPLACE Region error'));
                     if (results.length === 0)
                         return callback(new Error(''))
-                    callback(null, idTableInfo);
+                    callback(null, idUser);
                 });
             },
 
             //add Division where material sent
-            function (idTableInfo, callback) {
+            function (idUser, callback) {
 
                 let sql = "INSERT INTO DivisionWhereMaterialSent (title)" +
                     "SELECT ? FROM DUAL " +
@@ -98,87 +86,29 @@ class reqTableController {
                         return callback(new Error('REPLACE DivisionWhereMaterialSent error'));
                     if (results.length === 0)
                         return callback(new Error(''))
-                    callback(null, idTableInfo);
+                    callback(null, idUser);
                 });
             },
-
-            //add letter with response
-                function (idTableInfo, callback) {
-
-                    let sql = "INSERT INTO letterWithRequest (letNumber, date)" +
-                        "SELECT ?, ? FROM DUAL " +
-                        "WHERE NOT EXISTS (SELECT * FROM letterWithRequest " +
-                        "WHERE letNumber=? AND date=? LIMIT 1)";
-
-                    connection.query(sql,
-                        [letNumber, letNumberDate, letNumber, letNumberDate],
-                        (err, results) => {
-                    if (err)
-                        return callback(new Error('REPLACE letterWithRequest error'));
-                    if (results.length === 0)
-                        return callback(new Error(''))
-                    callback(null, idTableInfo);
-                });
-            },
-
-            //add Send Data On Registry Division
-            function (idTableInfo, callback) {
-
-                let sql = "INSERT INTO SendDataOnRegistryDivision (registryNum, date)" +
-                    "SELECT ?, ? FROM DUAL " +
-                    "WHERE NOT EXISTS (SELECT * FROM SendDataOnRegistryDivision " +
-                    "WHERE registryNum=? AND date=? LIMIT 1)";
-
-                connection.query(sql,
-                    [registryNum, registryNumDate, registryNum, registryNumDate],
-                    (err, results) => {
-                    if (err)
-                        return callback(new Error('REPLACE SendDataOnRegistryDivision error'));
-                    if (results.length === 0)
-                        return callback(new Error(''))
-                    callback(null, idTableInfo);
-                });
-            },
-
-            //add Request To
-            function (idTableInfo, callback) {
-
-                let sql = "INSERT INTO RequestTo (divisionNum, date)" +
-                    "SELECT ?, ? FROM DUAL " +
-                    "WHERE NOT EXISTS (SELECT * FROM RequestTo " +
-                    "WHERE divisionNum=? AND date=? LIMIT 1)";
-
-                connection.query(sql,
-                    [divisionNum, divisionNumDate, divisionNum, divisionNumDate],
-                    (err, results) => {
-                    if (err)
-                        return callback(new Error('REPLACE RequestTo error'));
-                    if (results.length === 0)
-                        return callback(new Error(''))
-                    callback(null, idTableInfo);
-                });
-            },
-
 
             //------------------------------------------------------------------------------------------------------
 
 
             //search who and when sent
-            function (idTableInfo, callback) {
-                let sql = "SELECT idWhoAndWhenSend FROM WhoAndWhenSend WHERE CUSPNum=? AND date=? ";
+            function (idUser, callback) {
+                let sql = "SELECT CUSP FROM CUSP WHERE CUSP=?";
                 connection.query(sql,
-                    [CUSPNum, CUSPDate],
+                    [CUSPNum],
                     (err, results) => {
                     if (err)
-                        return callback(new Error('SEARCH WhoAndWhenSend error'));
+                        return callback(new Error('SEARCH CUSP error'));
                     if (results.length === 0)
                         return callback(new Error(''))
-                    callback(null, idTableInfo, results[0]["idWhoAndWhenSend"]);
+                    callback(null, idUser, results[0]["CUSP"]);
                 });
             },
 
             //search region
-            function (idTableInfo,idWhoAndWhenSend, callback) {
+            function (idUser,CUSP, callback) {
                 let sql = "SELECT idRegion FROM Region WHERE region=? ";
                 connection.query(sql,
                     [Region],
@@ -187,12 +117,12 @@ class reqTableController {
                             return callback(new Error('SEARCH Region error'));
                         if (results.length === 0)
                             return callback(new Error(''))
-                        callback(null,idTableInfo, idWhoAndWhenSend, results[0]["idRegion"]);
+                        callback(null,idUser, CUSP, results[0]["idRegion"]);
                     });
             },
 
             //search Division Where Material Sent
-            function (idTableInfo,idWhoAndWhenSend, idRegion, callback) {
+            function (idUser,CUSP, idRegion, callback) {
                 let sql = "SELECT idDivisionWhereMaterialSent FROM DivisionWhereMaterialSent WHERE title=? ";
                 connection.query(sql,
                     [DivisionWhereMaterialSent],
@@ -201,91 +131,60 @@ class reqTableController {
                             return callback(new Error('SEARCH DivisionWhereMaterialSent error'));
                         if (results.length === 0)
                             return callback(new Error(''))
-                        callback(null,idTableInfo,idWhoAndWhenSend, idRegion, results[0]["idDivisionWhereMaterialSent"]);
-                    });
-            },
-
-            //search letter With Request
-            function (idTableInfo,idWhoAndWhenSend, idRegion, idDivisionWhereMaterialSent, callback) {
-                let sql = "SELECT idletterWithRequest FROM letterWithRequest WHERE letNumber=? AND date=? ";
-                connection.query(sql,
-                    [letNumber, letNumberDate],
-                    (err, results) => {
-                        if (err)
-                            return callback(new Error('SEARCH letterWithRequest error'));
-                        if (results.length === 0)
-                            return callback(new Error(''))
-                        callback(null,idTableInfo,idWhoAndWhenSend, idRegion, idDivisionWhereMaterialSent, results[0]["idletterWithRequest"]);
-                    });
-            },
-
-            //search Send Data On Registry Division
-            function (idTableInfo,idWhoAndWhenSend, idRegion, idDivisionWhereMaterialSent, idLetterWithRequest, callback) {
-                let sql = "SELECT idSendDataOnRegistryDivision FROM SendDataOnRegistryDivision WHERE registryNum=? AND date=? ";
-                connection.query(sql,
-                    [registryNum, registryNumDate],
-                    (err, results) => {
-                        if (err)
-                            return callback(new Error('SEARCH SendDataOnRegistryDivision error'));
-                        if (results.length === 0)
-                            return callback(new Error(''))
-                        callback(null,idTableInfo,idWhoAndWhenSend, idRegion, idDivisionWhereMaterialSent, idLetterWithRequest, results[0]["idSendDataOnRegistryDivision"]);
-                    });
-            },
-
-            //search Request To
-            function (idTableInfo,idWhoAndWhenSend, idRegion, idDivisionWhereMaterialSent, idLetterWithRequest, idSendDataOnRegistryDivision, callback) {
-                let sql = "SELECT idRequestTo FROM RequestTo WHERE divisionNum=? AND date=? ";
-                connection.query(sql,
-                    [divisionNum, divisionNumDate],
-                    (err, results) => {
-                        if (err)
-                            return callback(new Error('SEARCH RequestTo error'));
-                        if (results.length === 0)
-                            return callback(new Error(''))
-                        callback(null,idTableInfo,idWhoAndWhenSend,idRegion, idDivisionWhereMaterialSent, idLetterWithRequest, idSendDataOnRegistryDivision, results[0]["idRequestTo"]);
+                        callback(null,idUser,CUSP, idRegion, results[0]["idDivisionWhereMaterialSent"]);
                     });
             },
 
 
+            //-----------------------------------------------------------------------------------------------
 
-            //search Request To
-            function (idTableInfo,
-                      idWhoAndWhenSend,
+
+            //add request table
+            function (idUser,
+                      CUSP,
                       idRegion,
                       idDivisionWhereMaterialSent,
-                      idLetterWithRequest,
-                      idSendDataOnRegistryDivision,
-                      idRequestTo,
                       callback
             ) {
 
-                let sql = "INSERT INTO RequestTable (who, region, whereSent, couponNum, letter, dataOnRegistry, requestTo, answerOnRequest, owner)" +
-                    "SELECT ?, ?, ? ,?, ?, ?, ?, ?, ? FROM DUAL " +
-                    "WHERE NOT EXISTS (SELECT * FROM RequestTable " +
-                    "WHERE who=? AND region=? AND whereSent=? AND couponNum=? AND letter=? AND dataOnRegistry=? AND requestTo=? AND answerOnRequest=? AND owner=? LIMIT 1)";
+                let sql = "INSERT INTO RequestTable " +
+                    "(" +
+                    "whoSentCUSP, WhoSentCUSPDate, region, " +
+                    "whereSent, couponNum, letterSent, letterSentDate, dataSentOnRegistryNum, " +
+                    "dataSentOnRegistryDate, requestToNum, requestToDate, answerOnRequest, owner" +
+                    ")" +
+                    "SELECT ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ? FROM DUAL " +
+                    "WHERE NOT EXISTS " +
+                    "(SELECT * FROM RequestTable WHERE " +
+                    "whoSentCUSP=? AND WhoSentCUSPDate=? AND region=? AND whereSent=? AND couponNum=? " +
+                    "AND letterSent=? AND letterSentDate=? AND dataSentOnRegistryNum=? AND dataSentOnRegistryDate=? " +
+                    "AND requestToNum=? AND requestToDate=? AND answerOnRequest=? AND owner=? " +
+                    "LIMIT 1)";
 
                 connection.query(sql,
                     [
-                        idWhoAndWhenSend,
-                        idRegion,
-                        idDivisionWhereMaterialSent,
-                        couponNum,
-                        idLetterWithRequest,
-                        idSendDataOnRegistryDivision,
-                        idRequestTo,
-                        answerOnRequest,
-                        idTableInfo,
 
-                        idWhoAndWhenSend,
+                        CUSP,
+                        CUSPDate,
                         idRegion,
                         idDivisionWhereMaterialSent,
                         couponNum,
-                        idLetterWithRequest,
-                        idSendDataOnRegistryDivision,
-                        idRequestTo,
+                        letNumber, letNumberDate,
+                        registryNum, registryNumDate,
+                        divisionNum, divisionNumDate,
                         answerOnRequest,
-                        idTableInfo
+                        idUser,
+
+                        CUSP,
+                        CUSPDate,
+                        idRegion,
+                        idDivisionWhereMaterialSent,
+                        couponNum,
+                        letNumber, letNumberDate,
+                        registryNum, registryNumDate,
+                        divisionNum, divisionNumDate,
+                        answerOnRequest,
+                        idUser,
                     ],
                     (err, results) => {
                         if (err)

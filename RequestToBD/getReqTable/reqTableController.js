@@ -30,30 +30,28 @@ class reqTableController {
                 });
             },
 
-
             //search id request path
             function (id, callback) {
-                let sql = "SELECT requestPath FROM tableInfo WHERE dataOwner='"+ id + "' ";
+                let sql = "SELECT idTableInfo FROM tableInfo WHERE dataOwner='"+ id + "' ";
                 connection.query(sql,(err, results) => {
                     if (err)
                         return callback(new Error('ELECT error when you search id request path'));
                     else if (results.length === 0 )
                         return callback(new Error("Не найдена таблица запросов у этого пользователя"));
-                    callback(null,results);
+                    callback(null,results[0]["idTableInfo"]);
                 });
             },
 
-            //search userName on ID
-            // function (id, callback) {
-            //     let sql = "SELECT UserName FROM MVDBD.Users WHERE Users.idUsers='"+ id + "'";
-            //     connection.query(sql,(err, results) => {
-            //         if (err)
-            //             return callback(new Error('SELECT UserName error'));
-            //         if (results.length === 0)
-            //             return callback(new Error('Имя пользователя не найдено'))
-            //         callback(null,results[0]);
-            //     });
-            // }
+            //take info on request table
+            function (idTableInfo, callback) {
+                let sql = "SELECT * FROM requestTable WHERE owner=?";
+                connection.query(sql, [idTableInfo], (err, results) => {
+                    if (err)
+                        return callback(new Error('SELECT error when you take info on request table'));
+                    callback(null, results);
+                });
+            },
+
         ], function (err,result) {
             connection.end();
             if (err) {
