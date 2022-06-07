@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import Login from "./Login";
-import {postUserName} from "../../Data/Reducers/Login/LoginReducer";
+import {postUserName} from "../../Data/Reducers/LoginReducer";
 import {loginAxiosAPI} from "../../AxiosAPI/AxiosAPI";
 
 
@@ -14,7 +14,6 @@ class AuthContainer extends React.Component {
             }
             else
                 alert(data);
-
         });
     }
 

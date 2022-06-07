@@ -16,3 +16,15 @@ export const loginAxiosAPI = {
             .then(response => { return response.data });
     }
 }
+
+export const requestTableRowsAxiosAPI = {
+    getRows (userName) {
+        return instance.get(`reqTable?userName=${userName}`)
+            .then(response => { return response.data });
+    },
+
+    postRows (login, password) {
+        return instance.post(`auth/login`, {login,password})
+            .then(response => { return response.data });
+    }
+}

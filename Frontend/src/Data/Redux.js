@@ -1,8 +1,10 @@
-import {combineReducers, configureStore, legacy_createStore as createStore} from "@reduxjs/toolkit";
-import authSlice from "./Reducers/Login/LoginReducer";
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
+import authSlice from "./Reducers/LoginReducer";
+import {reqTableSlice} from "./Reducers/reqTableReducer";
 
 let reducers = combineReducers({
     loginPage: authSlice,
+    reqTablePage: reqTableSlice
 });
 
 export const store = configureStore({

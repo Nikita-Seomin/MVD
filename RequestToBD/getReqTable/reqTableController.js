@@ -1,19 +1,12 @@
 const mysql = require("mysql2");
-const {dbConfig, config} = require("../../Settings");
-//const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs")
+const {dbConfig} = require("../../Settings");
 const async = require("async");
 
-// const generateAccessToken = (id) => {
-//     const payload = {
-//         id
-//     }
-//     return jwt.sign(payload, config.secret, {expiresIn: "3h"});
-// }
 
 class reqTableController {
-    async login(req, res) {
-        const {userName} = req.body;
+    getRows(req, res) {
+
+        const userName = req.query.userName;
         const connection = mysql.createConnection(dbConfig);
 
         async.waterfall([
@@ -24,35 +17,70 @@ class reqTableController {
                 connection.query(sql, [userName], (err, results) => {
                     if (err)
                         return callback(new Error('SELECT error when you take user ID'));
-                    else if (results.length === 0 )
+                    else if (results.length === 0)
                         return callback(new Error("Не найден id у этого пользователя"));
                     callback(null, results[0]["idUsers"]);
                 });
             },
 
-            //search id request path
-            function (id, callback) {
-                let sql = "SELECT idTableInfo FROM tableInfo WHERE dataOwner='"+ id + "' ";
-                connection.query(sql,(err, results) => {
+            //SELECT rows in request table
+            function (idUser, callback) {
+                let sql = "SELECT * FROM RequestTable WHERE owner=?";
+                connection.query(sql, [idUser], (err, results) => {
                     if (err)
-                        return callback(new Error('ELECT error when you search id request path'));
-                    else if (results.length === 0 )
-                        return callback(new Error("Не найдена таблица запросов у этого пользователя"));
-                    callback(null,results[0]["idTableInfo"]);
-                });
-            },
-
-            //take info on request table
-            function (idTableInfo, callback) {
-                let sql = "SELECT * FROM requestTable WHERE owner=?";
-                connection.query(sql, [idTableInfo], (err, results) => {
-                    if (err)
-                        return callback(new Error('SELECT error when you take info on request table'));
+                        return callback(new Error('SELECT error when you take rows in request table'));
                     callback(null, results);
                 });
             },
 
-        ], function (err,result) {
+
+            function (rows, callback) {
+
+                for (let i = 0; i < rows.length; ++i) {
+                    async.waterfall([
+
+                            //SELECT and change region
+                            function (callback) {
+                                let sql = "SELECT region FROM Region WHERE idRegion=?";
+                                connection.query(sql, [rows[i]['region']], (err, results) => {
+                                    if (err)
+                                        return callback(new Error('SELECT error when you take region and change it'));
+                                    rows[i].region = results[0]['region'];
+                                    callback(null)
+                                });
+                            },
+
+                            // //SELECT and change region
+                            function (callback) {
+
+                                let sql = "SELECT title FROM DivisionWhereMaterialSent WHERE idDivisionWhereMaterialSent=?";
+                                connection.query(sql, [rows[i]['whereSent']], (err, results) => {
+                                    if (err)
+                                        return callback(new Error('SELECT error when you take region and change it'));
+                                    if (results.length===0){
+                                        return callback(new Error('В базе данных не найдено подразделение, в который направлен материал проверки '));
+                                    }
+                                    rows[i].whereSent = results[0]['title'];
+                                    callback(null, rows)
+                                });
+                            }
+                        ],
+                        function (err, result) {
+                            if (err) {
+                                callback(new Error(err));
+                            }
+                            if (rows.length===(i+1)){
+                                callback(null, result);
+                            }
+                        });
+                }
+                if (rows.length===0){
+                    callback(null, rows);
+                }
+            },
+
+
+        ], function (err, result) {
             connection.end();
             if (err) {
                 res.send(err.message);
@@ -62,4 +90,8 @@ class reqTableController {
 
     }
 }
+
+
+
+
 module.exports = new reqTableController();

@@ -17,7 +17,7 @@ app.use(cors(corsOptions));
 
 app.use('/auth' , authRouter);
 app.use('/postReqTable', reqTablePostRouter);
-//app.use('/reqTable', reqTableRouter);
+app.use('/reqTable', reqTableRouter);
 
 
 app.listen(8000, () => {
