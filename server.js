@@ -2,7 +2,8 @@ const express = require( "express" );
 const app = express();
 const authRouter = require('./RequestToBD/Auth/authRouter');
 const reqTableRouter = require('./RequestToBD/getReqTable/ReqTableRouter');
-const reqTablePostRouter = require('./RequestToBD/postReqTable/ReqTableRouter')
+const reqTablePostRouter = require('./RequestToBD/postReqTable/ReqTableRouter');
+const reqTableUpdateRouter = require('./RequestToBD/updateReqTable/updateReqTableRouter')
 let cors = require('cors')
 
 const corsOptions ={
@@ -18,6 +19,7 @@ app.use(cors(corsOptions));
 app.use('/auth' , authRouter);
 app.use('/postReqTable', reqTablePostRouter);
 app.use('/reqTable', reqTableRouter);
+app.use('/updateReqTable', reqTableUpdateRouter);
 
 
 app.listen(8000, () => {
