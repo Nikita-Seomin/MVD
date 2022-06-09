@@ -4,43 +4,34 @@ import {useTable, useSortBy} from "react-table";
 import classes from './ReqTable.module.css'
 
 
-// const data = [
-//     {
-//         whoSentCUSP: 22,
-//         WhoSentCUSPDate: 1234
-//     },
-//     {
-//         whoSentCUSP: 22,
-//         WhoSentCUSPDate: 1234
-//     },
-//     {
-//         whoSentCUSP: 22,
-//         WhoSentCUSPDate: 1234
-//     },
-//     {
-//     }
-// ]
+const state = {
+    idRequestTable: '',             // this field get from request, it does not use, but it is necessary for response
+    whoSentCUSP: '',
+    WhoSentCUSPDate: '',
+    region: '',
+    whereSent: '',
+    couponNum: '',
+    letterSent: '',
+    letterSentDate: '',
+    dataSentOnRegistryDate: '',
+    dataSentOnRegistryNum: '',
+    requestToNum: '',
+    requestToDate: '',
+    answerOnRequest: '',         // this field get from request, it does not use, but it is necessary for response
+    owner: '',                   // this field get from request, it does not use, but it is necessary for response
+    ResponseTable: ''           // this field get from request, it does not use, but it is necessary for response
+}
 
 
 export const DynamicRequestsTable = (props) => {
     console.log('reqTable')
-    const [changeState, setChangeState] = useState({
-        whoSentCUSP: '',
-        WhoSentCUSPDate: '',
-        region: '',
-        whereSent: '',
-        couponNum: '',
-        letterSent: '',
-        letterSentDate: '',
-        dataSentOnRegistryDate: '',
-        dataSentOnRegistryNum: '',
-        requestToNum: '',
-        requestToDate: ''
-    });
+    const [changeState, setChangeState] = useState(state);
     const [editingRowInd, setEditingRow] = useState(null);
     const [data, setContent] = useState(props.data);
+    const [isNewRow, setNewRow] = useState(false);
 
-    let a = 0;
+
+    let rowNum = 0;
     //console.log(changeState)
 
 
@@ -49,8 +40,8 @@ export const DynamicRequestsTable = (props) => {
             Header: 'Номер по порядку',
             id: 'idReqTable',
             accessor: () => {
-                a = a + 1;
-                return a
+                rowNum = rowNum + 1;
+                return rowNum
             }
         },
         {
@@ -75,7 +66,7 @@ export const DynamicRequestsTable = (props) => {
                     },
                     {
                         Header: 'дата',
-                        id: 'whoSentCUSPDate',
+                        id: 'WhoSentCUSPDate',
                         accessor: (originalRow, rowIndex) => {
                             if (editingRowInd === rowIndex) {
                                 return <input value={changeState.WhoSentCUSPDate}
@@ -214,8 +205,8 @@ export const DynamicRequestsTable = (props) => {
                         id: 'requestToDate',
                         accessor: (originalRow, rowIndex) => {
                             if (editingRowInd === rowIndex) {
-                                return <input value={changeState.requestToNum}
-                                              onChange={(e) => {setChangeState({...changeState, requestToNum: e.target.value})}}/>
+                                return <input value={changeState.requestToDate}
+                                              onChange={(e) => {setChangeState({...changeState, requestToDate: e.target.value})}}/>
                             }
                             return originalRow.requestToDate
                         }
@@ -233,7 +224,17 @@ export const DynamicRequestsTable = (props) => {
                 }
                 const onClickSave = () => {
                     if (editingRowInd === rowIndex) {
-                        setEditingRow(null);
+                        if (isNewRow){
+                            setNewRow(false);
+                            props.addRow(changeState)
+                            setChangeState(state);
+                            setEditingRow(null);
+                        }
+                        else{
+                            props.updateRow(changeState);
+                            setEditingRow(null);
+                            setChangeState(state);
+                        }
                     }
                 }
 
@@ -249,7 +250,17 @@ export const DynamicRequestsTable = (props) => {
             }
         }
     ]
-    const columns = useMemo(() => COLUMNS_GROUP, [editingRowInd, changeState])
+
+    const onClickAddButton = () => {
+        if (!editingRowInd){
+            setNewRow(true)
+            setEditingRow(data.length)
+            data.push(changeState)
+        }
+
+    }
+
+    const columns = useMemo(() => COLUMNS_GROUP, [editingRowInd, changeState, data, isNewRow])
 
 
     const {
@@ -297,6 +308,9 @@ export const DynamicRequestsTable = (props) => {
                 })}
                 </tbody>
             </table>
+            <button onClick={onClickAddButton}>
+                Добавить запись
+            </button>
         </>
     )
 

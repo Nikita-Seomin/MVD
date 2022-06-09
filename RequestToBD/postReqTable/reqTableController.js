@@ -8,16 +8,17 @@ class reqTableController {
 
         const {
             userName,
-            CUSPNum, CUSPDate,
-            Region,
-            DivisionWhereMaterialSent,
+            whoSentCUSP, WhoSentCUSPDate,
+            region,
+            whereSent,
             couponNum,
-            letNumber, letNumberDate,
-            registryNum, registryNumDate,
-            divisionNum, divisionNumDate,
+            letterSent, letterSentDate,
+            dataSentOnRegistryNum, dataSentOnRegistryDate,
+            requestToNum, requestToDate,
             answerOnRequest
         } = req.body;
         const connection = mysql.createConnection(dbConfig);
+
         async.waterfall([
 
             //take user ID
@@ -44,10 +45,10 @@ class reqTableController {
                     "WHERE CUSP=? LIMIT 1)";
 
                 connection.query(sql,
-                    [CUSPNum, CUSPNum],
+                    [whoSentCUSP, whoSentCUSP],
                     (err, results) => {
                     if (err)
-                        return callback(new Error('REPLACE CUSP error'));
+                        return callback(new Error('INSERT CUSP error'));
                     if (results.length === 0)
                         return callback(new Error(''))
                     callback(null,idUser);
@@ -62,7 +63,7 @@ class reqTableController {
                     "WHERE NOT EXISTS (SELECT * FROM Region " +
                     "WHERE region=? LIMIT 1)";
 
-                connection.query(sql,[Region, Region],(err, results) => {
+                connection.query(sql,[region, region],(err, results) => {
                     if (err)
                         return callback(new Error('REPLACE Region error'));
                     if (results.length === 0)
@@ -80,7 +81,7 @@ class reqTableController {
                     "WHERE title=? LIMIT 1)";
 
                 connection.query(sql,
-                    [DivisionWhereMaterialSent, DivisionWhereMaterialSent],
+                    [whereSent, whereSent],
                     (err, results) => {
                     if (err)
                         return callback(new Error('REPLACE DivisionWhereMaterialSent error'));
@@ -97,7 +98,7 @@ class reqTableController {
             function (idUser, callback) {
                 let sql = "SELECT CUSP FROM CUSP WHERE CUSP=?";
                 connection.query(sql,
-                    [CUSPNum],
+                    [whoSentCUSP],
                     (err, results) => {
                     if (err)
                         return callback(new Error('SEARCH CUSP error'));
@@ -111,7 +112,7 @@ class reqTableController {
             function (idUser,CUSP, callback) {
                 let sql = "SELECT idRegion FROM Region WHERE region=? ";
                 connection.query(sql,
-                    [Region],
+                    [region],
                     (err, results) => {
                         if (err)
                             return callback(new Error('SEARCH Region error'));
@@ -125,7 +126,7 @@ class reqTableController {
             function (idUser,CUSP, idRegion, callback) {
                 let sql = "SELECT idDivisionWhereMaterialSent FROM DivisionWhereMaterialSent WHERE title=? ";
                 connection.query(sql,
-                    [DivisionWhereMaterialSent],
+                    [whereSent],
                     (err, results) => {
                         if (err)
                             return callback(new Error('SEARCH DivisionWhereMaterialSent error'));
@@ -165,24 +166,24 @@ class reqTableController {
                     [
 
                         CUSP,
-                        CUSPDate,
+                        WhoSentCUSPDate,
                         idRegion,
                         idDivisionWhereMaterialSent,
                         couponNum,
-                        letNumber, letNumberDate,
-                        registryNum, registryNumDate,
-                        divisionNum, divisionNumDate,
+                        letterSent, letterSentDate,
+                        dataSentOnRegistryNum, dataSentOnRegistryDate,
+                        requestToNum, requestToDate,
                         answerOnRequest,
                         idUser,
 
                         CUSP,
-                        CUSPDate,
+                        WhoSentCUSPDate,
                         idRegion,
                         idDivisionWhereMaterialSent,
                         couponNum,
-                        letNumber, letNumberDate,
-                        registryNum, registryNumDate,
-                        divisionNum, divisionNumDate,
+                        letterSent, letterSentDate,
+                        dataSentOnRegistryNum, dataSentOnRegistryDate,
+                        requestToNum, requestToDate,
                         answerOnRequest,
                         idUser,
                     ],

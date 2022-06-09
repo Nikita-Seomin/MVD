@@ -20,29 +20,62 @@ function OnLoadingReqTableData(Component) {
 
 const DynamicRequestsTableContainer = () => {
 
-    const DataLoading =  OnLoadingReqTableData(DynamicRequestsTable);
-
     const [containerState, setContainerState] = useState(
         {
             loading: false,
             rows: [],
         }
     )
+    const [isUpdate, setIsUpdate] = useState(false);  //it is necessary for update rows in request table; useEffect keep track this state and do rerender if it changes
+
+    const updateRow = (rowJsonData) => {
+        requestTableRowsAxiosAPI.updateRows(rowJsonData).then(data => {
+            setIsUpdate(!isUpdate);                             // change state isUpdate for rerender rows in requestTable
+        })
+    }
+
+    const addRow = (newRowJson) => {
+        //console.log(newRowJson)
+        requestTableRowsAxiosAPI.postRows(newRowJson).then(data => {
+            setIsUpdate(!isUpdate);
+        })
+    }
+
+    const DataLoading =  OnLoadingReqTableData(DynamicRequestsTable);
+
+
 
     useEffect(
         () => {
             console.log('useEffect')
         setContainerState({loading: true})
         requestTableRowsAxiosAPI.getRows('root').then(Data => {
+            for (let i = 0; i < Data.length; ++i ) {
+
+                let date = new Date( Date.parse(Data[i]['WhoSentCUSPDate']) );
+                Data[i]['WhoSentCUSPDate'] = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`;
+
+                date = new Date( Date.parse(Data[i]['letterSentDate']));
+                Data[i]['letterSentDate'] = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`;
+
+                date = new Date( Date.parse(Data[i]['dataSentOnRegistryDate']));
+                Data[i]['dataSentOnRegistryDate'] = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`;
+
+                date = new Date( Date.parse(Data[i]['requestToDate']));
+                Data[i]['requestToDate'] = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`;
+            }
             setContainerState({
                 loading: false,
                 rows: Data
-            })
+            });
         })
     },
-        [setContainerState]);
+        [setContainerState, isUpdate]);
 
-        return < DataLoading isLoading={containerState.loading} data={containerState.rows} />
+        return < DataLoading addRow={addRow}
+                             updateRow={updateRow}
+                             isLoading={containerState.loading}
+                             data={containerState.rows} />
 }
 
 export default DynamicRequestsTableContainer

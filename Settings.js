@@ -2,7 +2,8 @@ let dbConfig = {
     host: "localhost",
     user: "root",
     database: "MVDBD",
-    password: "root"
+    password: "root",
+    //dateStrings: true
 }
 module.exports.dbConfig = dbConfig;
 

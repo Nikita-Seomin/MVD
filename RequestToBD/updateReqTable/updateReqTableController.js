@@ -5,9 +5,8 @@ const async = require("async");
 
 class reqTableController {
     async reqUpdate(req, res) {
-
+        //console.log(req.body)
         const {
-            userName,
             idRequestTable,
             whoSentCUSP, WhoSentCUSPDate,
             region,
@@ -57,20 +56,20 @@ class reqTableController {
             },
 
 
-            function (CUSP, idRegion,idDivision, callback) {
-                let sql = "SELECT idUsers FROM Users WHERE UserName=? LIMIT 1";
-                connection.query(sql, [userName], (err, results) => {
-                    if (err)
-                        return callback(new Error('SELECT error when you take user ID'));
-                    else if (results.length === 0)
-                        return callback(new Error("Не найден id у этого пользователя"));
-                    callback(null, CUSP, idRegion,idDivision, results[0]["idUsers"]);
-                });
-            },
+            // function (CUSP, idRegion,idDivision, callback) {
+            //     let sql = "SELECT idUsers FROM Users WHERE UserName=? LIMIT 1";
+            //     connection.query(sql, [userName], (err, results) => {
+            //         if (err)
+            //             return callback(new Error('SELECT error when you take user ID'));
+            //         else if (results.length === 0)
+            //             return callback(new Error("Не найден id у этого пользователя"));
+            //         callback(null, CUSP, idRegion,idDivision, results[0]["idUsers"]);
+            //     });
+            // },
 
             //-----------------UPDATE-REQUEST-TABLE-DATA-----------------------------------------
 
-            function (CUSP, idRegion,idDivision,userId, callback) {
+            function (CUSP, idRegion,idDivision, callback) {
                 let sql = "UPDATE RequestTable SET " +
                     "whoSentCUSP=?, " +
                     "whoSentCUSPDate=?, " +
@@ -84,7 +83,7 @@ class reqTableController {
                     "requestToNum=?, " +
                     "requestToDate=?, " +
                     "answerOnRequest=? " +
-                    "WHERE idRequestTable=? AND owner=?";
+                    "WHERE idRequestTable=? LIMIT 1";
 
                 connection.query(sql,
                     [
@@ -99,9 +98,9 @@ class reqTableController {
                         answerOnRequest,
 
                         idRequestTable,
-                        userId
                     ],
                     (err, results) => {
+                        //console.log(err.message)
                         if (err)
                             return callback(new Error('UPDATE error when you update request table'));
                         callback(null, results);

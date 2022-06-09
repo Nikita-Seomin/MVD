@@ -23,8 +23,14 @@ export const requestTableRowsAxiosAPI = {
             .then(response => { return response.data });
     },
 
-    postRows (login, password) {
-        return instance.post(`auth/login`, {login,password})
-            .then(response => { return response.data });
+    postRows (newRowJson) {
+        console.log({...newRowJson, userName: 'root'})
+        return instance.post(`postReqTable`, {...newRowJson, userName: 'root'})
+            .then(response => { console.log(response.data)  });
+    },
+
+    updateRows (updateJsonData) {
+        return instance.post(`updateReqTable`, updateJsonData)
+            .then(response => {  return response.data });
     }
 }
