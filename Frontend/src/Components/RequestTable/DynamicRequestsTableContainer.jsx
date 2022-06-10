@@ -53,16 +53,20 @@ const DynamicRequestsTableContainer = () => {
             for (let i = 0; i < Data.length; ++i ) {
 
                 let date = new Date( Date.parse(Data[i]['WhoSentCUSPDate']) );
-                Data[i]['WhoSentCUSPDate'] = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`;
+                Data[i]['WhoSentCUSPDate'] =
+                    `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
 
                 date = new Date( Date.parse(Data[i]['letterSentDate']));
-                Data[i]['letterSentDate'] = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`;
+                Data[i]['letterSentDate'] =
+                    `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
 
                 date = new Date( Date.parse(Data[i]['dataSentOnRegistryDate']));
-                Data[i]['dataSentOnRegistryDate'] = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`;
+                Data[i]['dataSentOnRegistryDate'] =
+                    `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
 
                 date = new Date( Date.parse(Data[i]['requestToDate']));
-                Data[i]['requestToDate'] = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`;
+                Data[i]['requestToDate'] =
+                    `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
             }
             setContainerState({
                 loading: false,

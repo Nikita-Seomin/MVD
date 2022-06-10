@@ -2,6 +2,7 @@ import React, {useEffect, useMemo} from 'react';
 import {useState} from 'react/cjs/react.development';
 import {useTable, useSortBy} from "react-table";
 import classes from './ReqTable.module.css'
+import Calendar from 'react-input-calendar'
 
 
 const state = {
@@ -72,9 +73,11 @@ export const DynamicRequestsTable = (props) => {
                                 return <input value={changeState.WhoSentCUSPDate}
                                               onChange={(e) => {
                                                   setChangeState({...changeState, WhoSentCUSPDate: e.target.value})
-                                              }}/>
+                                              }}
+                                              type="date"/>
                             }
-                            return originalRow.WhoSentCUSPDate
+                            let t = originalRow.WhoSentCUSPDate.split('-')          // Split for reverse date from 2000-01-01 to 01-01-2000
+                            return `${t[2]}-${t[1]}-${t[0]}`
                         }
                     }
                 ]
@@ -141,12 +144,15 @@ export const DynamicRequestsTable = (props) => {
                         id: 'letterSentDate',
                         accessor: (originalRow, rowIndex) => {
                             if (editingRowInd === rowIndex) {
+                                console.log(changeState.letterSentDate)
                                 return <input value={changeState.letterSentDate}
                                               onChange={(e) => {
                                                   setChangeState({...changeState, letterSentDate: e.target.value})
-                                              }}/>
+                                              }}
+                                              type="date"/>
                             }
-                            return originalRow.letterSentDate
+                            let t = originalRow.letterSentDate.split('-')          // Split for reverse date from 2000-01-01 to 01-01-2000
+                            return `${t[2]}-${t[1]}-${t[0]}`
                         }
                     }
                 ]
@@ -177,9 +183,11 @@ export const DynamicRequestsTable = (props) => {
                                 return <input value={changeState.dataSentOnRegistryDate}
                                               onChange={(e) => {
                                                   setChangeState({...changeState, dataSentOnRegistryDate: e.target.value})
-                                              }}/>
+                                              }}
+                                              type="date"/>
                             }
-                            return originalRow.dataSentOnRegistryDate
+                            let t = originalRow.dataSentOnRegistryDate.split('-')          // Split for reverse date from 2000-01-01 to 01-01-2000
+                            return `${t[2]}-${t[1]}-${t[0]}`
                         }
                     }
                 ]
@@ -206,9 +214,12 @@ export const DynamicRequestsTable = (props) => {
                         accessor: (originalRow, rowIndex) => {
                             if (editingRowInd === rowIndex) {
                                 return <input value={changeState.requestToDate}
-                                              onChange={(e) => {setChangeState({...changeState, requestToDate: e.target.value})}}/>
+                                              onChange={(e) => {
+                                                  setChangeState({...changeState, requestToDate: e.target.value})}}
+                                              type="date"/>
                             }
-                            return originalRow.requestToDate
+                            let t = originalRow.requestToDate.split('-')          // Split for reverse date from 2000-01-01 to 01-01-2000
+                            return `${t[2]}-${t[1]}-${t[0]}`
                         }
                     }
                 ]
