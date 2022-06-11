@@ -1,8 +1,7 @@
 import React, {useEffect, useMemo} from 'react';
 import {useState} from 'react/cjs/react.development';
-import {useTable, useSortBy} from "react-table";
+import {useTable, useSortBy, useResizeColumns, useFlexLayout} from "react-table";
 import classes from './ReqTable.module.css'
-import Calendar from 'react-input-calendar'
 
 
 const state = {
@@ -26,6 +25,9 @@ const state = {
 
 export const DynamicRequestsTable = (props) => {
     console.log('reqTable')
+    let t = new Date()
+    console.log(t)
+
     const [changeState, setChangeState] = useState(state);
     const [editingRowInd, setEditingRow] = useState(null);
     const [data, setContent] = useState(props.data);
@@ -35,11 +37,12 @@ export const DynamicRequestsTable = (props) => {
     let rowNum = 0;
     //console.log(changeState)
 
-
+    let widthDateField = 120;
     const COLUMNS_GROUP = [
         {
             Header: 'Номер по порядку',
             id: 'idReqTable',
+            width: 90,
             accessor: () => {
                 rowNum = rowNum + 1;
                 return rowNum
@@ -56,7 +59,8 @@ export const DynamicRequestsTable = (props) => {
                         id: 'whoSentCUSP',
                         accessor: (originalRow, rowIndex) => {
                             if (editingRowInd === rowIndex) {
-                                return <input value={changeState.whoSentCUSP}
+                                return <input className={classes.input}
+                                              value={changeState.whoSentCUSP}
                                               onChange={(e) => {
                                                   setChangeState({...changeState,whoSentCUSP: e.target.value})
                                               }}/>
@@ -68,9 +72,11 @@ export const DynamicRequestsTable = (props) => {
                     {
                         Header: 'дата',
                         id: 'WhoSentCUSPDate',
+                        width: widthDateField,
                         accessor: (originalRow, rowIndex) => {
                             if (editingRowInd === rowIndex) {
-                                return <input value={changeState.WhoSentCUSPDate}
+                                return <input className={classes.input}
+                                              value={changeState.WhoSentCUSPDate}
                                               onChange={(e) => {
                                                   setChangeState({...changeState, WhoSentCUSPDate: e.target.value})
                                               }}
@@ -87,10 +93,12 @@ export const DynamicRequestsTable = (props) => {
             id: 'region',
             accessor: (originalRow, rowIndex) => {
                 if (editingRowInd === rowIndex) {
-                    return <input value={changeState.region}
-                                  onChange={(e) => {
-                                      setChangeState({...changeState, region: e.target.value})
-                                  }}/>
+                    return <select className={classes.select}
+                                   onClick={(e) => {setChangeState({...changeState, region: e.target.value})} }>
+                        {data.map(row => {
+                            return (<option >{row.region}</option>)
+                        })}
+                    </select>
                 }
                 return originalRow.region
             }
@@ -98,9 +106,11 @@ export const DynamicRequestsTable = (props) => {
         {
             Header: 'Территориальный округ (подразделение), в который направлен матерал проверки',
             id: 'whereSent',
+            minWidth: 200,
             accessor: (originalRow, rowIndex) => {
                 if (editingRowInd === rowIndex) {
-                    return <input value={changeState.whereSent}
+                    return <input className={classes.input}
+                                  value={changeState.whereSent}
                                   onChange={(e) => {
                                       setChangeState({...changeState, whereSent: e.target.value})
                                   }}/>
@@ -111,9 +121,11 @@ export const DynamicRequestsTable = (props) => {
         {
             Header: '№ талона-уведомления (по территориальности)',
             id: 'couponNum',
+            width: 60,
             accessor: (originalRow, rowIndex) => {
                 if (editingRowInd === rowIndex) {
-                    return <input value={changeState.couponNum}
+                    return <input className={classes.input}
+                                  value={changeState.couponNum}
                                   onChange={(e) => {
                                       setChangeState({...changeState, couponNum: e.target.value})
                                   }}/>
@@ -131,7 +143,8 @@ export const DynamicRequestsTable = (props) => {
                         id: 'letterSent',
                         accessor: (originalRow, rowIndex) => {
                             if (editingRowInd === rowIndex) {
-                                return <input value={changeState.letterSent}
+                                return <input className={classes.input}
+                                              value={changeState.letterSent}
                                               onChange={(e) => {
                                                   setChangeState({...changeState, letterSent: e.target.value})
                                               }}/>
@@ -142,10 +155,12 @@ export const DynamicRequestsTable = (props) => {
                     {
                         Header: 'дата',
                         id: 'letterSentDate',
+                        width: widthDateField,
                         accessor: (originalRow, rowIndex) => {
                             if (editingRowInd === rowIndex) {
                                 console.log(changeState.letterSentDate)
-                                return <input value={changeState.letterSentDate}
+                                return <input className={classes.input}
+                                              value={changeState.letterSentDate}
                                               onChange={(e) => {
                                                   setChangeState({...changeState, letterSentDate: e.target.value})
                                               }}
@@ -167,7 +182,8 @@ export const DynamicRequestsTable = (props) => {
                         id: 'dataSentOnRegistryNum',
                         accessor: (originalRow, rowIndex) => {
                             if (editingRowInd === rowIndex) {
-                                return <input value={changeState.dataSentOnRegistryNum}
+                                return <input className={classes.input}
+                                              value={changeState.dataSentOnRegistryNum}
                                               onChange={(e) => {
                                                   setChangeState({...changeState, dataSentOnRegistryNum: e.target.value})
                                               }}/>
@@ -178,9 +194,11 @@ export const DynamicRequestsTable = (props) => {
                     {
                         Header: 'дата',
                         id: 'dataSentOnRegistryDate',
+                        width: widthDateField,
                         accessor: (originalRow, rowIndex) => {
                             if (editingRowInd === rowIndex) {
-                                return <input value={changeState.dataSentOnRegistryDate}
+                                return <input className={classes.input}
+                                              value={changeState.dataSentOnRegistryDate}
                                               onChange={(e) => {
                                                   setChangeState({...changeState, dataSentOnRegistryDate: e.target.value})
                                               }}
@@ -202,7 +220,8 @@ export const DynamicRequestsTable = (props) => {
                         id: 'requestToNum',
                         accessor: (originalRow, rowIndex) => {
                             if (editingRowInd === rowIndex) {
-                                return <input value={changeState.requestToNum}
+                                return <input className={classes.input}
+                                              value={changeState.requestToNum}
                                               onChange={(e) => {setChangeState({...changeState, requestToNum: e.target.value})}}/>
                             }
                             return originalRow.requestToNum
@@ -211,9 +230,11 @@ export const DynamicRequestsTable = (props) => {
                     {
                         Header: 'дата',
                         id: 'requestToDate',
+                        width: widthDateField,
                         accessor: (originalRow, rowIndex) => {
                             if (editingRowInd === rowIndex) {
-                                return <input value={changeState.requestToDate}
+                                return <input className={classes.input}
+                                              value={changeState.requestToDate}
                                               onChange={(e) => {
                                                   setChangeState({...changeState, requestToDate: e.target.value})}}
                                               type="date"/>
@@ -228,10 +249,8 @@ export const DynamicRequestsTable = (props) => {
             Header: "Изменить",
             accessor: (originalRow, rowIndex) => {
                 const onClickEdit = () => {
-                    if (!editingRowInd) {
-                        setChangeState(originalRow)
-                        setEditingRow(rowIndex);
-                    }
+                    setChangeState(originalRow)
+                    setEditingRow(rowIndex);
                 }
                 const onClickSave = () => {
                     if (editingRowInd === rowIndex) {
@@ -272,7 +291,13 @@ export const DynamicRequestsTable = (props) => {
     }
 
     const columns = useMemo(() => COLUMNS_GROUP, [editingRowInd, changeState, data, isNewRow])
-
+    const defaultColumn = React.useMemo(
+        () => ({
+            minWidth: 100,
+            maxWidth: 300
+        }),
+        []
+    );
 
     const {
         getTableProps,
@@ -283,18 +308,26 @@ export const DynamicRequestsTable = (props) => {
     } = useTable({
             columns,
             data,
+            defaultColumn
         },
         useSortBy,
+        useResizeColumns,
+        useFlexLayout
+
     )
 
     return (<>
-            <table {...getTableProps()}>
+            <table className={classes.Table} {...getTableProps()}>
                 <thead>
                 {headerGroups.map((headerGroups) => (
                     <tr {...headerGroups.getHeaderGroupProps()}>
                         {headerGroups.headers.map((column) => (
                             <th{...column.getHeaderProps(column.getSortByToggleProps())}>
                                 {column.render('Header')}
+                                <div
+                                    {...column.getResizerProps()}
+                                    className={classes.resizer}
+                                />
                                 <span>
                                 {column.isSorted ? (column.isSortedDesc ? '🔽' : '🔼') : ''}
                             </span>

@@ -192,9 +192,37 @@ class reqTableController {
                             return callback(new Error('INSERT to Request Table error'));
                         if (results.length === 0)
                             return callback(new Error(''))
+                        callback(null, idUser, CUSP, idRegion, idDivisionWhereMaterialSent);
+                    });
+            },
+
+            //add changes
+            function (idUser,
+                      CUSP,
+                      idRegion,
+                      idDivisionWhereMaterialSent,
+                      callback
+            ) {
+
+                let change = `добовлена строка: ${CUSP} ${WhoSentCUSPDate} ${region} ${whereSent} ${couponNum} ` +
+                    `${letterSent} ${letterSentDate} ${dataSentOnRegistryNum} ${dataSentOnRegistryDate} ` +
+                    `${requestToNum} ${requestToDate}`;
+
+                let sql = "INSERT INTO `changes` (`change`, `changesOwner`, `changeData`) VALUES (?, ?, ?)";
+
+                connection.query(sql,
+                    [change, idUser, new Date()],
+                    (err, results) => {
+                        if (err)
+                            return callback(new Error(''));
+                        if (results.length === 0)
+                            return callback(new Error(''))
                         callback(null,results);
                     });
             },
+
+
+
         ], function (err,result) {
             connection.end();
             if (err) {

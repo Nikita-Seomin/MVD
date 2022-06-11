@@ -54,7 +54,7 @@ const DynamicRequestsTableContainer = () => {
 
                 let date = new Date( Date.parse(Data[i]['WhoSentCUSPDate']) );
                 Data[i]['WhoSentCUSPDate'] =
-                    `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+                    `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`; //create string yyyy-mm-dd with nulls before single-digit numbers
 
                 date = new Date( Date.parse(Data[i]['letterSentDate']));
                 Data[i]['letterSentDate'] =
