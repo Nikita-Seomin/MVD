@@ -34,5 +34,10 @@ export const requestTableRowsAxiosAPI = {
     updateRows (updateJsonData) {
         return instance.post(`requestTable/rowActions/update`, updateJsonData)
             .then(response => {  return response.data });
+    },
+
+    deleteRow (idRequestTable) {
+        return instance.delete(`requestTable/rowActions/delete?idRequestTable=${idRequestTable}`)
+            .then(response => {  return response.data });
     }
 }

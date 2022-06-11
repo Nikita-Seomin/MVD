@@ -29,16 +29,21 @@ const DynamicRequestsTableContainer = () => {
     const [isUpdate, setIsUpdate] = useState(false);  //it is necessary for update rows in request table; useEffect keep track this state and do rerender if it changes
 
     const updateRow = (rowJsonData) => {
-        requestTableRowsAxiosAPI.updateRows(rowJsonData).then(data => {
-            setIsUpdate(!isUpdate);                             // change state isUpdate for rerender rows in requestTable
-        })
+        requestTableRowsAxiosAPI.updateRows(rowJsonData).then(
+            setIsUpdate(!isUpdate)                           // change state isUpdate for rerender rows in requestTable
+        )
     }
 
     const addRow = (newRowJson) => {
-        //console.log(newRowJson)
-        requestTableRowsAxiosAPI.postRows(newRowJson).then(data => {
-            setIsUpdate(!isUpdate);
-        })
+        requestTableRowsAxiosAPI.postRows(newRowJson).then(
+            setIsUpdate(!isUpdate)
+        )
+    }
+
+    const deleteRow = idRowInBD => {
+        requestTableRowsAxiosAPI.deleteRow(idRowInBD).then(
+            setIsUpdate(!isUpdate)
+        )
     }
 
     const DataLoading =  OnLoadingReqTableData(DynamicRequestsTable);
@@ -76,7 +81,8 @@ const DynamicRequestsTableContainer = () => {
     },
         [setContainerState, isUpdate]);
 
-        return < DataLoading addRow={addRow}
+        return < DataLoading deleteRow={deleteRow}
+                             addRow={addRow}
                              updateRow={updateRow}
                              isLoading={containerState.loading}
                              data={containerState.rows} />

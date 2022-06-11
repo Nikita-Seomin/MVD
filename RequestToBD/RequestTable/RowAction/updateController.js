@@ -69,7 +69,7 @@ class reqTableController {
 
             //-----------------UPDATE-REQUEST-TABLE-DATA-----------------------------------------
 
-            function (CUSP, idRegion,idDivision, callback) {
+            function (CUSP, idRegion, idDivision, callback) {
                 let sql = "UPDATE RequestTable SET " +
                     "whoSentCUSP=?, " +
                     "whoSentCUSPDate=?, " +
@@ -100,7 +100,6 @@ class reqTableController {
                         idRequestTable,
                     ],
                     (err, results) => {
-                        //console.log(err.message)
                         if (err)
                             return callback(new Error('UPDATE error when you update request table'));
                         callback(null, results);
@@ -112,8 +111,7 @@ class reqTableController {
             if (err) {
                 res.send(err.message);
             }
-            //res.statusCode(200);
-            res.json('ok')
+            res.send(result)
         });
 
     }

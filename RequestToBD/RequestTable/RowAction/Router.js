@@ -9,4 +9,5 @@ router.delete ('/delete', deleteController.deleteRow);
 router.get ('/get', getController.getRows);
 router.post ('/post', posController.addRow);
 router.post('/update', controller.updateRow)
+
 module.exports = router;

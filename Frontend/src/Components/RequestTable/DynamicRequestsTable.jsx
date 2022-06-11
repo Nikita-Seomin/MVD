@@ -248,6 +248,7 @@ export const DynamicRequestsTable = (props) => {
         {
             Header: "Изменить",
             accessor: (originalRow, rowIndex) => {
+
                 const onClickEdit = () => {
                     setChangeState(originalRow)
                     setEditingRow(rowIndex);
@@ -268,12 +269,19 @@ export const DynamicRequestsTable = (props) => {
                     }
                 }
 
+                const onClickDelete = () => {
+                    props.deleteRow(originalRow.idRequestTable);
+                }
+
                 return (<>
                         <button onClick={onClickEdit}>
                             edit
                         </button>
                         <button onClick={onClickSave}>
                             save
+                        </button>
+                        <button onClick={onClickDelete}>
+                            Удалить
                         </button>
                     </>
                 )
