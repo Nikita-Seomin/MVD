@@ -1,10 +1,10 @@
 const mysql = require("mysql2");
-const {dbConfig} = require("../../Settings");
+const {dbConfig} = require("../../../Settings");
 const async = require("async");
 
 
 class reqTableController {
-    async reqUpdate(req, res) {
+    async updateRow(req, res) {
         //console.log(req.body)
         const {
             idRequestTable,

@@ -1,5 +1,5 @@
 const mysql = require("mysql2");
-const {dbConfig} = require("../../Settings");
+const {dbConfig} = require("../../../Settings");
 const async = require("async");
 
 

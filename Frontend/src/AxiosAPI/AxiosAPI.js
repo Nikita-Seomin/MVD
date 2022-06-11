@@ -17,20 +17,22 @@ export const loginAxiosAPI = {
     }
 }
 
+
 export const requestTableRowsAxiosAPI = {
+
     getRows (userName) {
-        return instance.get(`reqTable?userName=${userName}`)
+        return instance.get(`requestTable/rowActions/get?userName=${userName}`)
             .then(response => { return response.data });
     },
 
     postRows (newRowJson) {
         console.log({...newRowJson, userName: 'root'})
-        return instance.post(`postReqTable`, {...newRowJson, userName: 'root'})
+        return instance.post(`requestTable/rowActions/post`, {...newRowJson, userName: 'root'})
             .then(response => { console.log(response.data)  });
     },
 
     updateRows (updateJsonData) {
-        return instance.post(`updateReqTable`, updateJsonData)
+        return instance.post(`requestTable/rowActions/update`, updateJsonData)
             .then(response => {  return response.data });
     }
 }
