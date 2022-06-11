@@ -215,8 +215,6 @@ class reqTableController {
                     (err, results) => {
                         if (err)
                             return callback(new Error(''));
-                        if (results.length === 0)
-                            return callback(new Error(''))
                         callback(null,results);
                     });
             },

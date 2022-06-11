@@ -41,3 +41,10 @@ export const requestTableRowsAxiosAPI = {
             .then(response => {  return response.data });
     }
 }
+
+export const requestTableRegionAxiosAPI = {
+    getRegions () {
+        return instance.get(`requestTable/regions/get`)
+            .then(response => { return response.data });
+    }
+}

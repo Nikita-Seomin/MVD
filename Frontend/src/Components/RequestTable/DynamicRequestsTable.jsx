@@ -62,7 +62,7 @@ export const DynamicRequestsTable = (props) => {
                                 return <input className={classes.input}
                                               value={changeState.whoSentCUSP}
                                               onChange={(e) => {
-                                                  setChangeState({...changeState,whoSentCUSP: e.target.value})
+                                                  setChangeState({...changeState, whoSentCUSP: e.target.value})
                                               }}/>
                             }
                             return originalRow.whoSentCUSP
@@ -93,10 +93,17 @@ export const DynamicRequestsTable = (props) => {
             id: 'region',
             accessor: (originalRow, rowIndex) => {
                 if (editingRowInd === rowIndex) {
-                    return <select className={classes.select}
-                                   onClick={(e) => {setChangeState({...changeState, region: e.target.value})} }>
-                        {data.map(row => {
-                            return (<option >{row.region}</option>)
+                    return <select id="regionSelect"
+                                   className={classes.select}
+                                   value={changeState.region}
+                                   onChange={(e) => {
+                                       setChangeState({
+                                           ...changeState,
+                                           region: document.querySelector('#regionSelect').value
+                                       })
+                                   }}>
+                        {props.regions.map(regionJSON => {
+                            return (<option>{regionJSON['region']}</option>)
                         })}
                     </select>
                 }
@@ -185,7 +192,10 @@ export const DynamicRequestsTable = (props) => {
                                 return <input className={classes.input}
                                               value={changeState.dataSentOnRegistryNum}
                                               onChange={(e) => {
-                                                  setChangeState({...changeState, dataSentOnRegistryNum: e.target.value})
+                                                  setChangeState({
+                                                      ...changeState,
+                                                      dataSentOnRegistryNum: e.target.value
+                                                  })
                                               }}/>
                             }
                             return originalRow.dataSentOnRegistryNum
@@ -200,7 +210,10 @@ export const DynamicRequestsTable = (props) => {
                                 return <input className={classes.input}
                                               value={changeState.dataSentOnRegistryDate}
                                               onChange={(e) => {
-                                                  setChangeState({...changeState, dataSentOnRegistryDate: e.target.value})
+                                                  setChangeState({
+                                                      ...changeState,
+                                                      dataSentOnRegistryDate: e.target.value
+                                                  })
                                               }}
                                               type="date"/>
                             }
@@ -222,7 +235,9 @@ export const DynamicRequestsTable = (props) => {
                             if (editingRowInd === rowIndex) {
                                 return <input className={classes.input}
                                               value={changeState.requestToNum}
-                                              onChange={(e) => {setChangeState({...changeState, requestToNum: e.target.value})}}/>
+                                              onChange={(e) => {
+                                                  setChangeState({...changeState, requestToNum: e.target.value})
+                                              }}/>
                             }
                             return originalRow.requestToNum
                         }
@@ -236,7 +251,8 @@ export const DynamicRequestsTable = (props) => {
                                 return <input className={classes.input}
                                               value={changeState.requestToDate}
                                               onChange={(e) => {
-                                                  setChangeState({...changeState, requestToDate: e.target.value})}}
+                                                  setChangeState({...changeState, requestToDate: e.target.value})
+                                              }}
                                               type="date"/>
                             }
                             let t = originalRow.requestToDate.split('-')          // Split for reverse date from 2000-01-01 to 01-01-2000
@@ -255,13 +271,12 @@ export const DynamicRequestsTable = (props) => {
                 }
                 const onClickSave = () => {
                     if (editingRowInd === rowIndex) {
-                        if (isNewRow){
+                        if (isNewRow) {
                             setNewRow(false);
                             props.addRow(changeState)
                             setChangeState(state);
                             setEditingRow(null);
-                        }
-                        else{
+                        } else {
                             props.updateRow(changeState);
                             setEditingRow(null);
                             setChangeState(state);
@@ -290,7 +305,7 @@ export const DynamicRequestsTable = (props) => {
     ]
 
     const onClickAddButton = () => {
-        if (!editingRowInd){
+        if (!editingRowInd) {
             setNewRow(true)
             setEditingRow(data.length)
             data.push(changeState)
@@ -321,7 +336,6 @@ export const DynamicRequestsTable = (props) => {
         useSortBy,
         useResizeColumns,
         useFlexLayout
-
     )
 
     return (<>

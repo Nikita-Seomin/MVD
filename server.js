@@ -2,6 +2,7 @@ const express = require( "express" );
 const app = express();
 const authRouter = require('./RequestToBD/Auth/authRouter');
 const requestTableRowActionsRouter =require('./RequestToBD/RequestTable/RowAction/Router')
+const requestTableRegionsRouter =require('./RequestToBD/RequestTable/getRegions/Router')
 let cors = require('cors')
 
 const corsOptions ={
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 
+app.use('/requestTable/regions', requestTableRegionsRouter);
 app.use('/requestTable/rowActions', requestTableRowActionsRouter);
 app.use('/auth' , authRouter);
 

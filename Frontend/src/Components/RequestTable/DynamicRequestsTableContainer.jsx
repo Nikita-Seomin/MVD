@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {requestTableRowsAxiosAPI} from "../../AxiosAPI/AxiosAPI";
+import {requestTableRegionAxiosAPI, requestTableRowsAxiosAPI} from "../../AxiosAPI/AxiosAPI";
 import {DynamicRequestsTable} from "./DynamicRequestsTable";
 import {useState} from "react/cjs/react.development";
 
@@ -26,6 +26,7 @@ const DynamicRequestsTableContainer = () => {
             rows: [],
         }
     )
+    const [regions, setRegions] = useState ([]);
     const [isUpdate, setIsUpdate] = useState(false);  //it is necessary for update rows in request table; useEffect keep track this state and do rerender if it changes
 
     const updateRow = (rowJsonData) => {
@@ -46,6 +47,12 @@ const DynamicRequestsTableContainer = () => {
         )
     }
 
+    const getRegions = () => {
+        requestTableRegionAxiosAPI.getRegions().then(data => {
+            setRegions(data);
+        })
+    }
+
     const DataLoading =  OnLoadingReqTableData(DynamicRequestsTable);
 
 
@@ -55,6 +62,7 @@ const DynamicRequestsTableContainer = () => {
             console.log('useEffect')
         setContainerState({loading: true})
         requestTableRowsAxiosAPI.getRows('root').then(Data => {
+            getRegions();
             for (let i = 0; i < Data.length; ++i ) {
 
                 let date = new Date( Date.parse(Data[i]['WhoSentCUSPDate']) );
@@ -81,7 +89,8 @@ const DynamicRequestsTableContainer = () => {
     },
         [setContainerState, isUpdate]);
 
-        return < DataLoading deleteRow={deleteRow}
+        return < DataLoading regions={regions}
+                             deleteRow={deleteRow}
                              addRow={addRow}
                              updateRow={updateRow}
                              isLoading={containerState.loading}
