@@ -17,4 +17,4 @@ let getUserOnID = (id) => {
 }
 
 
-module.exports = new getUserOnID();
+module.exports = getUserOnID;
