@@ -25,7 +25,7 @@ let updateData = (owner) => {
         function (changes, callback) {
         if (changes.length === NUMBER_LAST_CHANGES_NEED+1){
             let sql = "DELETE FROM changes WHERE changesOwner=? LIMIT 1";
-            connection.query(sql, [owner], (err, results) => {
+            connection.query(sql, [owner], (err) => {
                 if (err)
                     return callback(new Error('Ошибка при удалении строки'));
                 callback(null);

@@ -55,21 +55,21 @@ class reqTableController {
                 });
             },
 
-
-            // function (CUSP, idRegion,idDivision, callback) {
-            //     let sql = "SELECT idUsers FROM Users WHERE UserName=? LIMIT 1";
-            //     connection.query(sql, [userName], (err, results) => {
-            //         if (err)
-            //             return callback(new Error('SELECT error when you take user ID'));
-            //         else if (results.length === 0)
-            //             return callback(new Error("Не найден id у этого пользователя"));
-            //         callback(null, CUSP, idRegion,idDivision, results[0]["idUsers"]);
-            //     });
-            // },
+            //SELECT old row
+            function (CUSP, idRegion,idDivision, callback) {
+                let sql = "SELECT * FROM RequestTable WHERE idRequestTable=? LIMIT 1";
+                connection.query(sql, [idRequestTable], (err, results) => {
+                    if (err)
+                        return callback(new Error('Ошибка при поиске строки для обновления'));
+                    else if (results.length === 0)
+                        return callback(new Error("Не найдена строка для обновления"));
+                    callback(null, CUSP, idRegion,idDivision, results[0]);
+                });
+            },
 
             //-----------------UPDATE-REQUEST-TABLE-DATA-----------------------------------------
 
-            function (CUSP, idRegion, idDivision, callback) {
+            function (CUSP, idRegion, idDivision, oldRow, callback) {
                 let sql = "UPDATE RequestTable SET " +
                     "whoSentCUSP=?, " +
                     "whoSentCUSPDate=?, " +
