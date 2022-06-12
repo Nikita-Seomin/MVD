@@ -1,6 +1,7 @@
 const mysql = require("mysql2");
 const {dbConfig} = require("../../../Settings");
 const async = require("async");
+const updateData = require("./auxiliaryFunctions/updateDataInChanges");
 
 
 class reqTableController {
@@ -217,6 +218,11 @@ class reqTableController {
                             return callback(new Error(''));
                         callback(null,results);
                     });
+            },
+
+            function (results, callback) {
+                updateData(userName);
+                callback(null,results);
             },
 
 

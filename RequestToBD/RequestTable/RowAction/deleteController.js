@@ -1,6 +1,7 @@
 const mysql = require("mysql2");
 const {dbConfig} = require("../../../Settings");
 const async = require("async");
+const updateData = require("./auxiliaryFunctions/updateDataInChanges");
 
 
 class reqTableController {
@@ -33,24 +34,36 @@ class reqTableController {
                 });
             },
 
-            // //add changes
-            // function (row, callback) {
-            //     console.log(row);
-            //     let change = `удалена строка: ${row.whoSentCUSP} ${row.WhoSentCUSPDate} ${row.region} ${row.whereSent} ${row.couponNum} ` +
-            //         `${row.letterSent} ${row.letterSentDate} ${row.dataSentOnRegistryNum} ${row.dataSentOnRegistryDate} ` +
-            //         `${row.requestToNum} ${row.requestToDate}`;
-            //     console.log(row.owner);
-            //     console.log(change);
-            //     console.log(change.length);
-            //     let sql = "INSERT INTO `changes` (`change`, `changesOwner`, `changeData`) VALUES (?, ?, ?)";
-            //     connection.query(sql,
-            //         [change, row.owner , new Date()],
-            //         (err, results) => {
-            //             if (err)
-            //                 return callback(new Error('Ошибка при сохранении изменения удаления'));
-            //             callback(null, results);
-            //         });
-            // },
+            //add changes
+            function (row, callback) {
+                let whoSentDate = new Date(row.WhoSentCUSPDate);
+                let letterSentDate = new Date(row.letterSentDate);
+                let dataSentOnRegistryDate = new Date(row.dataSentOnRegistryDate);
+                let requestToDate = new Date(row.requestToDate);
+
+                let change = `удалена строка: ${row.whoSentCUSP} ` +
+                    `${("0" + whoSentDate.getDate()).slice(-2)}-${("0" + (whoSentDate.getMonth() + 1)).slice(-2)}-${whoSentDate.getFullYear()} `+
+                     `${row.whereSent} ${row.couponNum} ${row.letterSent} ` +
+                    `${("0" + letterSentDate.getDate()).slice(-2)}-${("0" + (letterSentDate.getMonth() + 1)).slice(-2)}-${letterSentDate.getFullYear()} ` +
+                    `${row.dataSentOnRegistryNum} ` +
+                    `${("0" + dataSentOnRegistryDate.getDate()).slice(-2)}-${("0" + (dataSentOnRegistryDate.getMonth() + 1)).slice(-2)}-${dataSentOnRegistryDate.getFullYear()} ` +
+                    `${row.requestToNum} ` +
+                    `${("0" + requestToDate.getDate()).slice(-2)}-${("0" + (requestToDate.getMonth() + 1)).slice(-2)}-${requestToDate.getFullYear()} `;
+
+                let sql = "INSERT INTO `changes` (`change`, `changesOwner`, `changeData`) VALUES (?, ?, ?)";
+                connection.query(sql,
+                    [change, row.owner , new Date()],
+                    (err, results) => {
+                        if (err)
+                            return callback(new Error('Ошибка при сохранении изменения удаления'));
+                        callback(null, row.owner, results);
+                    });
+            },
+
+            function (owner, results, callback) {
+                updateData(owner);
+                callback(null,results);
+            },
 
         ], function (err, result) {
             connection.end();
