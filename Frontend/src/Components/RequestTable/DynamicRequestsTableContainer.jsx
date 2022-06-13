@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
-import {requestTableRegionAxiosAPI, requestTableRowsAxiosAPI} from "../../AxiosAPI/AxiosAPI";
+import  {requestTableRows} from "../../AxiosAPI/requestTableRow";
+import  {regions} from "../../AxiosAPI/Regions";
 import {DynamicRequestsTable} from "./DynamicRequestsTable";
 import {useState} from "react/cjs/react.development";
 
@@ -26,30 +27,30 @@ const DynamicRequestsTableContainer = () => {
             rows: [],
         }
     )
-    const [regions, setRegions] = useState ([]);
+    const [regionsState, setRegionsState] = useState ([]);
     const [isUpdate, setIsUpdate] = useState(false);  //it is necessary for update rows in request table; useEffect keep track this state and do rerender if it changes
 
     const updateRow = (rowJsonData) => {
-        requestTableRowsAxiosAPI.updateRows(rowJsonData).then(
+        requestTableRows.updateRows(rowJsonData).then(
             setIsUpdate(!isUpdate)                           // change state isUpdate for rerender rows in requestTable
         )
     }
 
     const addRow = (newRowJson) => {
-        requestTableRowsAxiosAPI.postRows(newRowJson).then(
+        requestTableRows.postRows(newRowJson).then(
             setIsUpdate(!isUpdate)
         )
     }
 
     const deleteRow = idRowInBD => {
-        requestTableRowsAxiosAPI.deleteRow(idRowInBD).then(
+        requestTableRows.deleteRow(idRowInBD).then(
             setIsUpdate(!isUpdate)
         )
     }
 
     const getRegions = () => {
-        requestTableRegionAxiosAPI.getRegions().then(data => {
-            setRegions(data);
+        regions.getRegions().then(data => {
+            setRegionsState(data);
         })
     }
 
@@ -61,7 +62,7 @@ const DynamicRequestsTableContainer = () => {
         () => {
             console.log('useEffect')
         setContainerState({loading: true})
-        requestTableRowsAxiosAPI.getRows('root').then(Data => {
+            requestTableRows.getRows('root').then(Data => {
             getRegions();
             for (let i = 0; i < Data.length; ++i ) {
 
@@ -89,7 +90,7 @@ const DynamicRequestsTableContainer = () => {
     },
         [setContainerState, isUpdate]);
 
-        return < DataLoading regions={regions}
+        return < DataLoading regions={regionsState}
                              deleteRow={deleteRow}
                              addRow={addRow}
                              updateRow={updateRow}

@@ -3,7 +3,7 @@ import {Route} from "react-router-dom";
 import {Routes} from "react-router";
 import AuthContainer from "./Components/LoginPage/AuthContainer";
 import Navigation from "./Components/NavigationPage/Navigation";
-import DynamicRequestsTableContainer from "./Components/RequestTable/DynamicRequestsTableContainer";
+import RequestsTableContainer from "./Components/RequestTable/DynamicRequestsTableContainer";
 
 const App = () => {
     return (
@@ -11,7 +11,7 @@ const App = () => {
                 <Routes>
                     <Route path='/Auth' element={ <AuthContainer /> } />
                     <Route path='' element={ <Navigation/> } />
-                    <Route path='/requestsTable' element={<DynamicRequestsTableContainer  />} />
+                    <Route path='/requestsTable' element={<RequestsTableContainer />} />
                 </Routes>
             </div>
     );
