@@ -5,8 +5,8 @@ import classes from './Navigation.module.css';
 let Navigation = () => {
 
     return (
-        <nav className={classes.nav}>
-            <NavLink to={"/requestsTable"} >qwe</NavLink>
+        <nav >
+            <NavLink to={"/requestsTable"} >Перейти на страницу запросо в другие подразделения</NavLink>
         </nav>
     )
 }

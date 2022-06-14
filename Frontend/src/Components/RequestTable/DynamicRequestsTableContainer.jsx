@@ -21,14 +21,12 @@ function OnLoadingReqTableData(Component) {
 
 const DynamicRequestsTableContainer = () => {
 
-    const [containerState, setContainerState] = useState(
-        {
+    const [containerState, setContainerState] = useState({
             loading: false,
             rows: [],
-        }
-    )
+        })
     const [regionsState, setRegionsState] = useState ([]);
-    const [isUpdate, setIsUpdate] = useState(false);  //it is necessary for update rows in request table; useEffect keep track this state and do rerender if it changes
+    const [isUpdate, setIsUpdate] = useState(false);             //it is necessary for update rows in request table; useEffect keep track this state and do rerender if it changes
 
     const updateRow = (rowJsonData) => {
         requestTableRows.updateRows(rowJsonData).then(
@@ -66,7 +64,7 @@ const DynamicRequestsTableContainer = () => {
             getRegions();
             for (let i = 0; i < Data.length; ++i ) {
 
-                let date = new Date( Date.parse(Data[i]['WhoSentCUSPDate']) );
+                let date = new Date( Date.parse(Data[i]['WhoSentCUSPDate']));
                 Data[i]['WhoSentCUSPDate'] =
                     `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)}`; //create string yyyy-mm-dd with nulls before single-digit numbers
 

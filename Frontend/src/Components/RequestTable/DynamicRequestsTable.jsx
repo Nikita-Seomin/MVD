@@ -50,7 +50,7 @@ export const DynamicRequestsTable = (props) => {
         },
         {
             Header: 'Кусп направившего территориального округа',
-            accessor: 'ReqCUSP',
+            id: 'ReqCUSP',
 
             columns:
                 [
@@ -82,7 +82,7 @@ export const DynamicRequestsTable = (props) => {
                                               }}
                                               type="date"/>
                             }
-                            let t = originalRow.WhoSentCUSPDate.split('-')          // Split for reverse date from 2000-01-01 to 01-01-2000
+                            let t = originalRow.WhoSentCUSPDate.split('-')                                          // Split for reverse date from 2000-01-01 to 01-01-2000
                             return `${t[2]}-${t[1]}-${t[0]}`
                         }
                     }
@@ -142,7 +142,7 @@ export const DynamicRequestsTable = (props) => {
         },
         {
             Header: 'Сопроводительное письмо к материалу отправленному по территориальности',
-            accessor: 'reqLetter',
+            id: 'reqLetter',
             columns:
                 [
                     {
@@ -181,7 +181,7 @@ export const DynamicRequestsTable = (props) => {
         },
         {
             Header: 'Дата отправки по реестру подразделения ДиР',
-            accessor: 'dataReqOnRegistry',
+            id: 'dataReqOnRegistry',
             columns:
                 [
                     {
@@ -225,7 +225,7 @@ export const DynamicRequestsTable = (props) => {
         },
         {
             Header: 'В территориальный орган (подразделение) направлен запрос',
-            accessor: 'RequestTo',
+            id: 'RequestTo',
             columns:
                 [
                     {
