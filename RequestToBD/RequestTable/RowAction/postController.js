@@ -6,7 +6,7 @@ const updateData = require("./auxiliaryFunctions/updateDataInChanges");
 
 class reqTableController {
     async addRow(req, res) {
-
+        console.log(req.body)
         const {
             userName,
             whoSentCUSP, WhoSentCUSPDate,
@@ -24,7 +24,7 @@ class reqTableController {
 
             //take user ID
             function (callback) {
-                let sql = "SELECT idUsers FROM Users WHERE UserName= ?";
+                let sql = "SELECT idUsers FROM Users WHERE UserName= ? LIMIT 1";
                 connection.query(sql, [userName], (err, results) => {
                     if (err)
                         return callback(new Error('SELECT error when you take user ID'));
@@ -34,84 +34,9 @@ class reqTableController {
                 });
             },
 
-
-            //------------------------------INSERTS IF NOT EXISTS----------------------------
-
-            //add CUSP
-            function (idUser, callback) {
-
-                let sql = "INSERT INTO CUSP (CUSP)" +
-                    "SELECT ? FROM DUAL " +
-                    "WHERE NOT EXISTS (SELECT * FROM CUSP " +
-                    "WHERE CUSP=? LIMIT 1)";
-
-                connection.query(sql,
-                    [whoSentCUSP, whoSentCUSP],
-                    (err, results) => {
-                    if (err)
-                        return callback(new Error('INSERT CUSP error'));
-                    if (results.length === 0)
-                        return callback(new Error(''))
-                    callback(null,idUser);
-                });
-            },
-
-            //add Region
-            function (idUser, callback) {
-
-                let sql = "INSERT INTO Region (region)" +
-                    "SELECT ? FROM DUAL " +
-                    "WHERE NOT EXISTS (SELECT * FROM Region " +
-                    "WHERE region=? LIMIT 1)";
-
-                connection.query(sql,[region, region],(err, results) => {
-                    if (err)
-                        return callback(new Error('REPLACE Region error'));
-                    if (results.length === 0)
-                        return callback(new Error(''))
-                    callback(null, idUser);
-                });
-            },
-
-            //add Division where material sent
-            function (idUser, callback) {
-
-                let sql = "INSERT INTO DivisionWhereMaterialSent (title)" +
-                    "SELECT ? FROM DUAL " +
-                    "WHERE NOT EXISTS (SELECT * FROM DivisionWhereMaterialSent " +
-                    "WHERE title=? LIMIT 1)";
-
-                connection.query(sql,
-                    [whereSent, whereSent],
-                    (err, results) => {
-                    if (err)
-                        return callback(new Error('REPLACE DivisionWhereMaterialSent error'));
-                    if (results.length === 0)
-                        return callback(new Error(''))
-                    callback(null, idUser);
-                });
-            },
-
-            //------------------------------------------------------------------------------------------------------
-
-
-            //search who and when sent
-            function (idUser, callback) {
-                let sql = "SELECT CUSP FROM CUSP WHERE CUSP=?";
-                connection.query(sql,
-                    [whoSentCUSP],
-                    (err, results) => {
-                    if (err)
-                        return callback(new Error('SEARCH CUSP error'));
-                    if (results.length === 0)
-                        return callback(new Error(''))
-                    callback(null, idUser, results[0]["CUSP"]);
-                });
-            },
-
             //search region
-            function (idUser,CUSP, callback) {
-                let sql = "SELECT idRegion FROM Region WHERE region=? ";
+            function (idUser, callback) {
+                let sql = "SELECT idRegion FROM Region WHERE region=? LIMIT 1";
                 connection.query(sql,
                     [region],
                     (err, results) => {
@@ -119,13 +44,13 @@ class reqTableController {
                             return callback(new Error('SEARCH Region error'));
                         if (results.length === 0)
                             return callback(new Error(''))
-                        callback(null,idUser, CUSP, results[0]["idRegion"]);
+                        callback(null,idUser, results[0]["idRegion"]);
                     });
             },
 
             //search Division Where Material Sent
-            function (idUser,CUSP, idRegion, callback) {
-                let sql = "SELECT idDivisionWhereMaterialSent FROM DivisionWhereMaterialSent WHERE title=? ";
+            function (idUser, idRegion, callback) {
+                let sql = "SELECT idUsers FROM Users WHERE UserName=? LIMIT 1";
                 connection.query(sql,
                     [whereSent],
                     (err, results) => {
@@ -133,7 +58,7 @@ class reqTableController {
                             return callback(new Error('SEARCH DivisionWhereMaterialSent error'));
                         if (results.length === 0)
                             return callback(new Error(''))
-                        callback(null,idUser,CUSP, idRegion, results[0]["idDivisionWhereMaterialSent"]);
+                        callback(null,idUser, idRegion, results[0]["idUsers"]);
                     });
             },
 
@@ -143,7 +68,6 @@ class reqTableController {
 
             //add request table
             function (idUser,
-                      CUSP,
                       idRegion,
                       idDivisionWhereMaterialSent,
                       callback
@@ -166,7 +90,7 @@ class reqTableController {
                 connection.query(sql,
                     [
 
-                        CUSP,
+                        whoSentCUSP,
                         WhoSentCUSPDate,
                         idRegion,
                         idDivisionWhereMaterialSent,
@@ -177,7 +101,7 @@ class reqTableController {
                         answerOnRequest,
                         idUser,
 
-                        CUSP,
+                        whoSentCUSP,
                         WhoSentCUSPDate,
                         idRegion,
                         idDivisionWhereMaterialSent,
@@ -193,19 +117,18 @@ class reqTableController {
                             return callback(new Error('INSERT to Request Table error'));
                         if (results.length === 0)
                             return callback(new Error(''))
-                        callback(null, idUser, CUSP, idRegion, idDivisionWhereMaterialSent);
+                        callback(null, idUser, idRegion, idDivisionWhereMaterialSent);
                     });
             },
 
             //add changes
             function (idUser,
-                      CUSP,
                       idRegion,
                       idDivisionWhereMaterialSent,
                       callback
             ) {
 
-                let change = `добовлена строка: ${CUSP} ${WhoSentCUSPDate} ${region} ${whereSent} ${couponNum} ` +
+                let change = `добовлена строка: ${whoSentCUSP} ${WhoSentCUSPDate} ${region} ${whereSent} ${couponNum} ` +
                     `${letterSent} ${letterSentDate} ${dataSentOnRegistryNum} ${dataSentOnRegistryDate} ` +
                     `${requestToNum} ${requestToDate}`;
 
@@ -216,12 +139,12 @@ class reqTableController {
                     (err, results) => {
                         if (err)
                             return callback(new Error(''));
-                        callback(null,results);
+                        callback(null, idUser, results);
                     });
             },
 
-            function (results, callback) {
-                updateData(userName);
+            function (idUser, results, callback) {
+                updateData(idUser);
                 callback(null,results);
             },
 
@@ -232,6 +155,7 @@ class reqTableController {
             if (err) {
                 res.send(err.message);
             }
+            console.log(result)
             res.send(result);
         });
 

@@ -23,7 +23,7 @@ const state = {
 }
 
 
-export const DynamicRequestsTable = (props) => {
+export const RequestsTable = (props) => {
     console.log('reqTable')
     let t = new Date()
     console.log(t)
@@ -165,7 +165,6 @@ export const DynamicRequestsTable = (props) => {
                         width: widthDateField,
                         accessor: (originalRow, rowIndex) => {
                             if (editingRowInd === rowIndex) {
-                                console.log(changeState.letterSentDate)
                                 return <input className={classes.input}
                                               value={changeState.letterSentDate}
                                               onChange={(e) => {
@@ -278,6 +277,7 @@ export const DynamicRequestsTable = (props) => {
                             setEditingRow(null);
                         } else {
                             props.updateRow(changeState);
+                            console.log(changeState)
                             setEditingRow(null);
                             setChangeState(state);
                         }

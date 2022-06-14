@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import  {requestTableRows} from "../../AxiosAPI/requestTableRow";
 import  {regions} from "../../AxiosAPI/Regions";
-import {DynamicRequestsTable} from "./DynamicRequestsTable";
+import {RequestsTable} from "./RequestsTable";
 import {useState} from "react/cjs/react.development";
 
 
@@ -19,7 +19,7 @@ function OnLoadingReqTableData(Component) {
 }
 
 
-const DynamicRequestsTableContainer = () => {
+const RequestsTableContainer = () => {
 
     const [containerState, setContainerState] = useState({
             loading: false,
@@ -52,7 +52,7 @@ const DynamicRequestsTableContainer = () => {
         })
     }
 
-    const DataLoading =  OnLoadingReqTableData(DynamicRequestsTable);
+    const DataLoading =  OnLoadingReqTableData(RequestsTable);
 
     useEffect(          // this use effect only using when creating object for the first time
         () => {
@@ -62,8 +62,10 @@ const DynamicRequestsTableContainer = () => {
 
     useEffect(
         () => {
+            console.log('useEffect');
         setContainerState({loading: true})
             requestTableRows.getRows('root').then(Data => {
+                console.log(Data)
             for (let i = 0; i < Data.length; ++i ) {
                 let date = new Date( Date.parse(Data[i]['WhoSentCUSPDate']));
                 Data[i]['WhoSentCUSPDate'] =
@@ -97,4 +99,4 @@ const DynamicRequestsTableContainer = () => {
                              data={containerState.rows} />
 }
 
-export default DynamicRequestsTableContainer
+export default RequestsTableContainer

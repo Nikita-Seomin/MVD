@@ -26,7 +26,7 @@ class reqTableController {
 
             //delete row on id
             function (row, callback) {
-                let sql = "DELETE FROM RequestTable WHERE idRequestTable=?";
+                let sql = "DELETE FROM RequestTable WHERE idRequestTable=? LIMIT 1";
                 connection.query(sql, [idRequestTable], (err, results) => {
                     if (err)
                         return callback(new Error('Ошибка при удалении строки'));
