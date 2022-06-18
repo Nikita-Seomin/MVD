@@ -16,7 +16,7 @@ jobs:
       - name: npm install and test
         run: |
           npm install
-          nodemon server.js
+          node server.js
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
