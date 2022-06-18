@@ -5,7 +5,7 @@ const updateData = require("./auxiliaryFunctions/updateDataInChanges");
 
 
 class reqTableController {
-    async addRow(req, res) {
+    addRow(req, res) {
         console.log(req.body)
         const {
             userName,

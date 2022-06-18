@@ -3,6 +3,7 @@ const app = express();
 const authRouter = require('./RequestToBD/Auth/authRouter');
 const requestTableRowActionsRouter =require('./RequestToBD/RequestTable/RowAction/Router')
 const requestTableRegionsRouter =require('./RequestToBD/RequestTable/getRegions/Router')
+const responseTableRouter =require('./RequestToBD/responseTable/Routes')
 let cors = require('cors')
 
 const corsOptions ={
@@ -18,7 +19,7 @@ app.use(cors(corsOptions));
 app.use('/requestTable/regions', requestTableRegionsRouter);
 app.use('/requestTable/rowActions', requestTableRowActionsRouter);
 app.use('/auth' , authRouter);
-
+app.use('/respTable' , responseTableRouter);
 
 app.listen(8000, () => {
     console.log('Application listening on port 8000!');

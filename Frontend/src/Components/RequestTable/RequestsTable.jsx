@@ -290,10 +290,10 @@ export const RequestsTable = (props) => {
 
                 return (<>
                         <button onClick={onClickEdit}>
-                            edit
+                            Исправить
                         </button>
                         <button onClick={onClickSave}>
-                            save
+                            Сохранить
                         </button>
                         <button onClick={onClickDelete}>
                             Удалить
