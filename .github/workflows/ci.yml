@@ -16,13 +16,14 @@ jobs:
       - name: npm install and test
         run: |
           npm install
+          npm --start
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
           host: localhost
           port: 8000
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          username: root
+          password: root
 
 #  deploy:
 #    needs: [test]
