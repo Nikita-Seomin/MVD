@@ -16,12 +16,8 @@ jobs:
       - name: npm install and test
         run: |
           npm install
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@master
-        with:
-          host: localhost
-          port: 8000
-          username: root
+          node server.js
+          killall node
 
 #  deploy:
 #    needs: [test]
