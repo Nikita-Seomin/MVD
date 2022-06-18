@@ -18,9 +18,9 @@ jobs:
         run: |
           npm install
 
-  deploy:
-    needs: [test]
-    runs-on: ubuntu-latest
+#  deploy:
+#    needs: [test]
+#    runs-on: ubuntu-latest
 
 #    steps:
 #      - name: SSH and deploy node app
