@@ -21,8 +21,8 @@ jobs:
         with:
           host: localhost
           port: 8000
-          username: root
-          password: root
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
 
 #  deploy:
 #    needs: [test]
