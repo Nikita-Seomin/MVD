@@ -21,6 +21,8 @@ jobs:
         with:
           host: localhost
           port: 8000
+          username: root
+          password: root
 
 #  deploy:
 #    needs: [test]
