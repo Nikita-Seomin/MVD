@@ -17,7 +17,11 @@ jobs:
       - name: npm install and test
         run: |
           npm install
-          ll
+      - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: localhost
+        port: 8000
 
 #  deploy:
 #    needs: [test]
