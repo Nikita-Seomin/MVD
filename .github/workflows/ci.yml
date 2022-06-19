@@ -81,9 +81,6 @@ jobs:
       - name: docker logs to file logs.txt
         run: docker-compose logs --no-color >& logs.txt
 
-      - name: docker-compose logs
-        run: docker-compose logs
-
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
