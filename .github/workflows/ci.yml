@@ -52,6 +52,23 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
 
+  telegram:
+    name: Send notification to Telegram
+    needs: push_to_registry
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/telegram-action@master
+        with:
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message: |
+            New release ${{ github.ref }} in ${{ github.repository }}
+            Author: ${{ github.actor }}
+            
+            Docker status: ${{ needs.push_to_registry.result }}
+
+
 
 
 
