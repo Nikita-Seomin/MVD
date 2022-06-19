@@ -72,12 +72,8 @@ jobs:
       - name: docker up
         run: docker-compose up
 
-      - name: docker logs
-        run: sleep 10 && docker-compose logs
-
       - name: docker logs to file logs.txt
         run: docker-compose logs --no-color -f >& logs.txt
-
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
