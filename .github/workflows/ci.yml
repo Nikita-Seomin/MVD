@@ -11,10 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-      - name: npm install and test
-        run: |
-          npm install
-          node server.js
-          node -v
+
+      - name: docker ps
+        run: docker-compose ps
+
+      - name: docker down
+        run: docker-compose down
+
+      - name: docker run
+        run: docker-compose up -d
+
+      - name: docker logs
+        run: sleep 30 && docker-compose logs
