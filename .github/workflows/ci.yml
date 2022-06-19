@@ -22,11 +22,11 @@ jobs:
         run: docker-compose up -d
 
       - name: docker logs
-        run: sleep 10 && docker-compose logs
+        run: sleep 10
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: D:\NodeJSProjects\mvd
+          path: APP
           retention-days: 5
