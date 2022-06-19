@@ -24,9 +24,6 @@ jobs:
       - name: docker logs
         run: sleep 10 && docker-compose logs
 
-      - name: ll
-        run: ll
-
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
