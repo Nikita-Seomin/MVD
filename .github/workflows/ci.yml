@@ -28,5 +28,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: ../mvd
+          path: D:\NodeJSProjects\mvd
           retention-days: 5
