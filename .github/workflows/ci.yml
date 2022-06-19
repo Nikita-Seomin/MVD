@@ -73,7 +73,7 @@ jobs:
         run: docker-compose up
 
       - name: docker logs
-        run: sleep 10 && docker-compose logs
+        run: sleep 20 && docker-compose logs
 
       - name: docker logs to file logs.txt
         run: docker-compose logs --no-color >& logs.txt
