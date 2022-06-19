@@ -63,16 +63,13 @@ jobs:
       - name: docker down
         run: docker-compose down
 
-      - name: docker up
-        run: docker-compose down
-
       #      - name: docker buld
       #        run:  docker build -t "mvd_nodejs"
       #
       #      - name: docker save
       #        run: docker save $(docker images -q) -o /myimage.tar
 
-      - name: docker run
+      - name: docker up
         run: docker-compose up
 
       - name: docker logs
