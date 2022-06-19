@@ -28,4 +28,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: my-artifact-matrix
+          path: app
           retention-days: 5
