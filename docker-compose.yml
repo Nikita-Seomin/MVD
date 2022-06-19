@@ -8,3 +8,5 @@ services:
     environment:
       - SERVER_PORT=8000
       - USERNAME=root
+    volumes:
+      - ./nodeLogs
