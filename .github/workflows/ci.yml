@@ -27,6 +27,6 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: my-artifact-matrix
-          path: logs
+          name: my-artifact
+          path: nodeLogs
           retention-days: 5
