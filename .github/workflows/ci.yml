@@ -23,3 +23,10 @@ jobs:
 
       - name: docker logs
         run: sleep 30 && docker-compose logs
+
+      - name: Archive logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: node_logs
+          path: node_logs
+          retention_days: 5
