@@ -43,8 +43,8 @@ jobs:
     steps:
       - uses: appleboy/telegram-action@master
         with:
-          token: 5416401310:AAGDu1eZ93ABOBGMUxbVZFcqsevmdllKXR4
-          to: https://t.me/+J6FJ3igm8p5mOGEy
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
           message: |
             New release ${{ github.ref }} in ${{ github.repository }}
             Author: ${{ github.actor }}
