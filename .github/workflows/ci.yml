@@ -44,7 +44,7 @@ jobs:
       - uses: appleboy/telegram-action@master
         with:
           token: 5416401310:AAGDu1eZ93ABOBGMUxbVZFcqsevmdllKXR4
-          to: +J6FJ3igm8p5mOGEy
+          to: https://t.me/+J6FJ3igm8p5mOGEy
           message: |
             New release ${{ github.ref }} in ${{ github.repository }}
             Author: ${{ github.actor }}
