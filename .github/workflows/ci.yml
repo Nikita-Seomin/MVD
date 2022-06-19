@@ -18,11 +18,18 @@ jobs:
       - name: docker down
         run: docker-compose down
 
+      - name: docker buld
+        run:  docker-compose build
+
+
+      - name: docekr save
+        run: docker-compose save $(docker images -q) -o /myimage.tar
+
       - name: docker run
-        run: docker-compose up -d
+        run: docker-compose -d
 
       - name: docker logs
-        run: sleep 10
+        run: sleep 10 && docker-compose logs
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
