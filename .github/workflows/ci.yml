@@ -9,6 +9,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      app_name: nodeLogs
     steps:
       - uses: actions/checkout@v2
 
@@ -24,9 +26,9 @@ jobs:
       - name: docker logs
         run: sleep 30 && docker-compose logs
 
-      - name: Archive logs
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: node_logs
-          path: node_logs
+          name: my-artifact-matrix
+          path: ${{ env.app_name }}**
           retention-days: 5
