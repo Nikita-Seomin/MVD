@@ -23,7 +23,7 @@ jobs:
 
 
       - name: docekr save
-        run: docker-compose save $(docker images -q) -o /myimage.tar
+        run: docker save $(docker images -q) -o /myimage.tar
 
       - name: docker run
         run: docker-compose -d
