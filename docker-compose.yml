@@ -6,7 +6,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ./nodeLogs:/APP
+      - ../mvd:/APP
     environment:
       - SERVER_PORT=8000
       - USERNAME=root
