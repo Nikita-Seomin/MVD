@@ -56,21 +56,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: docker ps
-        run: docker-compose ps
-
-      - name: docker down
-        run: docker-compose down
-
-      #      - name: docker buld
-      #        run:  docker build -t "mvd_nodejs"
       #
       #      - name: docker save
       #        run: docker save $(docker images -q) -o /myimage.tar
 
       - name: docker up
         run: docker-compose up
+
+      - name: docker down
+        run: docker-compose down
 
       - name: docker logs to file logs.txt
         run: docker-compose logs --no-color -f >& logs.txt
