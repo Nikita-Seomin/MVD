@@ -2,4 +2,4 @@ FROM node
 WORKDIR /mvd
 COPY . .
 RUN npm ci
-ENTRYPOINT ["npm", "test"]
+RUN npm test
