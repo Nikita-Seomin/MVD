@@ -60,7 +60,7 @@ jobs:
       #      - name: docker save
       #        run: docker save $(docker images -q) -o /myimage.tar
 
-      - name: docker up
+      - name: docker up and down
         run: docker-compose up && docker-compose down
 
       - name: docker logs to file logs.txt
