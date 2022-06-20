@@ -1,6 +1,6 @@
 FROM node
 WORKDIR /mvd
 COPY . .
-RUN cd /mvd
+RUN ls
 RUN npm ci
 CMD ["npm", "start"]
