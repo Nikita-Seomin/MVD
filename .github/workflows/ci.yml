@@ -6,6 +6,15 @@ on:
       - addDocker
 
 jobs:
+  heroku:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APPS_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
 
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -37,7 +46,7 @@ jobs:
 
   telegram:
     name: Send notification to Telegram
-    needs: push_to_registry
+    needs: [push_to_registry, heroku]
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -48,7 +57,8 @@ jobs:
           message: |
             New release ${{ github.ref }} in ${{ github.repository }}
             Author: ${{ github.actor }}
-
+            
+            Heroku status: ${{ needs.heroku.result }}
             Docker status: ${{ needs.push_to_registry.result }}
 
 #  build:
