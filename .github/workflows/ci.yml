@@ -61,7 +61,7 @@ jobs:
       #        run: docker save $(docker images -q) -o /myimage.tar
 
       - name: docker up
-        run: docker-compose up && Ctrl+c
+        run: docker-compose up && docker-compose down
 
       - name: docker logs to file logs.txt
         run: docker-compose logs --no-color -f >& logs.txt
