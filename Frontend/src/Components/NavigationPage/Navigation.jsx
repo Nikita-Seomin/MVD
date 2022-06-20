@@ -1,18 +1,15 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 import classes from './Navigation.module.css';
-import {getLogin} from "../../RequestToServer/AuthReq";
-
-let loginTemp = getLogin();
 
 let Navigation = () => {
 
     return (
-        <nav className={classes.nav}>
-            <NavLink to={"/requestsTable"}>qwe</NavLink>
+        <nav >
+            <NavLink to={"/requestsTable"} >Перейти на страницу запросо в другие подразделения---------------</NavLink>
+            <NavLink to={"/responseTable"} >Ответить на пришедшие запросы</NavLink>
         </nav>
     )
-
 }
 
 export default Navigation;

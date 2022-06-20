@@ -1,11 +1,6 @@
-import axios from "axios";
+import instance from "./instance";
 
-const instance = axios.create({
-    withCredentials: true,
-    baseURL: "http://localhost:8000/"
-});
-
-export const loginAxiosAPI = {
+export const login = {
     getUsers () {
         return instance.get(`LogIn`)
             .then(response => { return response.data });
