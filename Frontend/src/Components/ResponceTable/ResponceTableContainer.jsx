@@ -25,40 +25,9 @@
 //         loading: false,
 //         rows: [],
 //     })
-//     const [regionsState, setRegionsState] = useState ([]);
 //     const [isUpdate, setIsUpdate] = useState(false);             //it is necessary for update rows in request table; useEffect keep track this state and do rerender if it changes
 //
-//     const updateRow = (rowJsonData) => {
-//         requestTableRows.updateRows(rowJsonData).then(
-//             setIsUpdate(!isUpdate)                           // change state isUpdate for rerender rows in requestTable
-//         )
-//     }
-//
-//     const addRow = (newRowJson) => {
-//         requestTableRows.postRows(newRowJson).then(
-//             setIsUpdate(!isUpdate)
-//         )
-//     }
-//
-//     const deleteRow = idRowInBD => {
-//         requestTableRows.deleteRow(idRowInBD).then(
-//             setIsUpdate(!isUpdate)
-//         )
-//     }
-//
-//     const getRegions = () => {
-//         regions.getRegions().then(data => {
-//             setRegionsState(data);
-//         })
-//     }
-//
 //     const DataLoading =  OnLoadingReqTableData(RequestsTable);
-//
-//     useEffect(          // this use effect only using when creating object for the first time
-//         () => {
-//             getRegions();
-//         },
-//         [setRegionsState])
 //
 //     useEffect(
 //         () => {
