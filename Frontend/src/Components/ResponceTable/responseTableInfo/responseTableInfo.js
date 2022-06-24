@@ -3,11 +3,15 @@ import {useState} from 'react/cjs/react.development';
 import {useFlexLayout, useResizeColumns, useTable} from "react-table";
 import columns from './columns'
 import classes from "../../RequestTable/ReqTable.module.css";
+import Dddd from 'x-date'
 
 export const RequestsTableInfo = (props) => {
-    //props.row.WhoSentCUSPDate='20/01/2002'
+    console.log(props.row)
+    props.row.WhoSentCUSPDate = new Date(props.row.WhoSentCUSPDate).format('dd-mm-yyyy');
+    props.row.dataSentOnRegistryDate = new Date(props.row.dataSentOnRegistryDate).format('dd-mm-yyyy');
+    props.row.letterSentDate = new Date(props.row.letterSentDate).format('dd-mm-yyyy');
+    props.row.requestToDate = new Date(props.row.requestToDate).format('dd-mm-yyyy');
     const [data, setData] = useState([props.row]);
-    console.log(data)
 
     const {
         getTableProps,
