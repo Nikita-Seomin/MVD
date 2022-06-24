@@ -13,10 +13,8 @@ const NavigationContainer = () => {
 
     useEffect(
         () => {
-            console.log('useEffect');
             setContainerState({loading: true})
             respTableRows.getRows('root2').then(data => {
-                console.log(data)
                 setContainerState({
                     loading: false,
                     rows: data
