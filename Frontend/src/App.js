@@ -4,7 +4,7 @@ import {Routes} from "react-router";
 import AuthContainer from "./Components/LoginPage/AuthContainer";
 import Navigation from "./Components/NavigationPage/Navigation";
 import RequestsTableContainer from "./Components/RequestTable/RequestsTableContainer";
-import ResponseTableContainer from "./Components/ResponceTable/ResponceTableContainer";
+import NavigationContainer from "./Components/ResponceTable/Navigation/NavigationContainer";
 
 const App = () => {
     return (
@@ -13,7 +13,7 @@ const App = () => {
                     <Route path='/Auth' element={ <AuthContainer /> } />
                     <Route path='' element={ <Navigation/> } />
                     <Route path='/requestsTable' element={<RequestsTableContainer />} />
-                    <Route path='/responseTable' element={<ResponseTableContainer />} />
+                    <Route path='/navigationResponseTable' element={<NavigationContainer />} />
                 </Routes>
             </div>
     );
