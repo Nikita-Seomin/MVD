@@ -7,7 +7,7 @@ let Navigation = () => {
     return (
         <nav >
             <NavLink to={"/requestsTable"} >Перейти на страницу запросо в другие подразделения---------------</NavLink>
-            <NavLink to={"/responseTable"} >Ответить на пришедшие запросы</NavLink>
+            <NavLink to={"/navigationResponseTable"} >Ответить на пришедшие запросы</NavLink>
         </nav>
     )
 }
