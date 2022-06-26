@@ -2,9 +2,11 @@ import React, {useMemo} from 'react';
 import {useState} from 'react/cjs/react.development';
 import {useTable, useResizeColumns, useFlexLayout} from "react-table";
 import classes from './respTableAnswer.module.css'
+import {respTableAnswer} from "../../../AxiosAPI/RespTableResponse";
 
 
 const state = {
+    idRequestTable: '',
     respLetterNum: '',
     respLetterDate: '',
     respDateSentOnRegistyNum: '',
@@ -17,11 +19,10 @@ const state = {
 
 
 export const ResponseTableAnswer = (props) => {
-    //console.log(props.row)
-    //console.log('reqTable')
+    state.idRequestTable = props.row.idRequestTable
     const [changeState, setChangeState] = useState(state);
     let data = [changeState]
-    //console.log(changeState)
+
 
     const COLUMNS_GROUP = [
         {
@@ -134,11 +135,11 @@ export const ResponseTableAnswer = (props) => {
                         Header: 'исходный №',
                         id: 'decisionNum',
                         accessor: (originalRow, rowIndex) => {
-                                return <input className={classes.input}
-                                              value={changeState.decisionNum}
-                                              onChange={(e) => {
-                                                  setChangeState({...changeState, decisionNum: e.target.value})
-                                              }}/>
+                            return <input className={classes.input}
+                                          value={changeState.decisionNum}
+                                          onChange={(e) => {
+                                              setChangeState({...changeState, decisionNum: e.target.value})
+                                          }}/>
 
                         }
                     },
@@ -146,12 +147,12 @@ export const ResponseTableAnswer = (props) => {
                         Header: 'дата',
                         id: 'decisionDate',
                         accessor: (originalRow, rowIndex) => {
-                                return <input className={classes.input}
-                                              value={changeState.decisionDate}
-                                              onChange={(e) => {
-                                                  setChangeState({...changeState, decisionDate: e.target.value})
-                                              }}
-                                              type="date"/>
+                            return <input className={classes.input}
+                                          value={changeState.decisionDate}
+                                          onChange={(e) => {
+                                              setChangeState({...changeState, decisionDate: e.target.value})
+                                          }}
+                                          type="date"/>
                         }
                     }
                 ]
@@ -159,9 +160,14 @@ export const ResponseTableAnswer = (props) => {
         {
             Header: "Сохранить",
             accessor: (originalRow, rowIndex) => {
-                const onClickSave = () => {
-                            //props.addRow(changeState)
-                            //setChangeState(state);
+                function onClickSave (){
+                    respTableAnswer.postAnswer(changeState).then(stat => {
+                        if (stat === 500)
+                            alert('Не полуилось загрузить данные')
+                        else {
+                            return window.location.assign('http://localhost:3000/NavigationResponseTable');
+                        }
+                    })
                 }
 
 
@@ -231,7 +237,8 @@ export const ResponseTableAnswer = (props) => {
                     )
                 })}
                 </tbody>
-            </table>>
+            </table>
+            >
         </>
     )
 }

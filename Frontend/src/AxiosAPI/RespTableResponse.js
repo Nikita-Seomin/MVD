@@ -1,10 +1,10 @@
 import instance from "./instance";
 
-export const respTableRows = {
+export const respTableAnswer = {
 
     postAnswer (answer) {
-        return instance.post(`requestTable/rowActions/post`, {answer})
-            .then(response => { response.status });
-    },
+        return instance.post(`responseTable/post`, {...answer})
+            .then(response => { return response.status });
+    }
 }
 

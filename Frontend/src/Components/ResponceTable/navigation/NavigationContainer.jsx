@@ -1,7 +1,8 @@
 import React, {useEffect} from "react";
 import {useState} from "react/cjs/react.development";
-import {respTableRows} from "../../../AxiosAPI/RespTableRows";
+import { respTableRows} from "../../../AxiosAPI/RespTableRows";
 import Navigation from "./Navigation";
+import {respTableAnswer} from "../../../AxiosAPI/RespTableResponse";
 
 
 const NavigationContainer = () => {
@@ -24,8 +25,7 @@ const NavigationContainer = () => {
         [setContainerState]
     )
 
-
-    if (!containerState.loading) return <Navigation rows={containerState.rows} />
+    if (!containerState.loading) return <Navigation rows={containerState.rows}  />
     else return <h1>Подождите, данные загружаются!</h1>
 
 }

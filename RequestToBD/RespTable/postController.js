@@ -40,7 +40,7 @@ class reqTableController {
                     ],
                     (err) => {
                         if (err)
-                            return callback(new Error('INSERT to Request Table error'));
+                            return callback(new Error('INSERT to response Table error'));
                         callback(null);
                     });
             },
