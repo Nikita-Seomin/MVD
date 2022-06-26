@@ -69,9 +69,9 @@ class reqTableController {
 
         ], function (err,result) {
             if (err) {
-                res.send(err.message);
+                res.status(500).send(err.message);
             }
-            res.send(result);
+            res.status(200).send(result);
         });
 
     }
