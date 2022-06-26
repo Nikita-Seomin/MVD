@@ -16,10 +16,12 @@ const state = {
 }
 
 
-export const RequestsTable = (props) => {
-    console.log('reqTable')
+export const ResponseTableAnswer = (props) => {
+    //console.log(props.row)
+    //console.log('reqTable')
     const [changeState, setChangeState] = useState(state);
-
+    let data = [changeState]
+    //console.log(changeState)
 
     const COLUMNS_GROUP = [
         {
@@ -158,8 +160,8 @@ export const RequestsTable = (props) => {
             Header: "Сохранить",
             accessor: (originalRow, rowIndex) => {
                 const onClickSave = () => {
-                            props.addRow(changeState)
-                            setChangeState(state);
+                            //props.addRow(changeState)
+                            //setChangeState(state);
                 }
 
 
@@ -232,7 +234,6 @@ export const RequestsTable = (props) => {
             </table>>
         </>
     )
-
 }
 
 
