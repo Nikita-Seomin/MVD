@@ -2,8 +2,6 @@ import React, {useEffect} from "react";
 import {useState} from "react/cjs/react.development";
 import { respTableRows} from "../../../AxiosAPI/RespTableRows";
 import Navigation from "./Navigation";
-import {respTableAnswer} from "../../../AxiosAPI/RespTableResponse";
-
 
 const NavigationContainer = () => {
 

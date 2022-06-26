@@ -25,8 +25,6 @@ const state = {
 
 export const RequestsTable = (props) => {
     console.log('reqTable')
-    let t = new Date()
-    console.log(t)
 
     const [changeState, setChangeState] = useState(state);
     const [editingRowInd, setEditingRow] = useState(null);
@@ -35,7 +33,6 @@ export const RequestsTable = (props) => {
 
 
     let rowNum = 0;
-    //console.log(changeState)
 
     let widthDateField = 120;
     const COLUMNS_GROUP = [
@@ -277,7 +274,6 @@ export const RequestsTable = (props) => {
                             setEditingRow(null);
                         } else {
                             props.updateRow(changeState);
-                            console.log(changeState)
                             setEditingRow(null);
                             setChangeState(state);
                         }

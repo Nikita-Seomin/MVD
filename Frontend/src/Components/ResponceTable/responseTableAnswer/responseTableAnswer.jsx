@@ -34,7 +34,7 @@ export const ResponseTableAnswer = (props) => {
                     {
                         Header: '№',
                         id: 'respLetterNum',
-                        accessor: (originalRow, rowIndex) => {
+                        accessor: () => {
                             return <input className={classes.input}
                                           value={changeState.respLetterNum}
                                           onChange={(e) => {
@@ -46,7 +46,7 @@ export const ResponseTableAnswer = (props) => {
                     {
                         Header: 'дата',
                         id: 'respLetterDate',
-                        accessor: (originalRow, rowIndex) => {
+                        accessor: () => {
                             return <input className={classes.input}
                                           value={changeState.respLetterDate}
                                           onChange={(e) => {
@@ -65,7 +65,7 @@ export const ResponseTableAnswer = (props) => {
                     {
                         Header: '№',
                         id: 'respDateSentOnRegistyNum',
-                        accessor: (originalRow, rowIndex) => {
+                        accessor: () => {
                             return <input className={classes.input}
                                           value={changeState.respDateSentOnRegistyNum}
                                           onChange={(e) => {
@@ -76,7 +76,7 @@ export const ResponseTableAnswer = (props) => {
                     {
                         Header: 'дата',
                         id: 'respDateSentOnRegistyDate',
-                        accessor: (originalRow, rowIndex) => {
+                        accessor: () => {
                             return <input className={classes.input}
                                           value={changeState.respDateSentOnRegistyDate}
                                           onChange={(e) => {
@@ -98,7 +98,7 @@ export const ResponseTableAnswer = (props) => {
                     {
                         Header: '№ реестра',
                         id: 'whoTakeCUSP',
-                        accessor: (originalRow, rowIndex) => {
+                        accessor: () => {
                             return <input className={classes.input}
                                           value={changeState.whoTakeCUSP}
                                           onChange={(e) => {
@@ -112,7 +112,7 @@ export const ResponseTableAnswer = (props) => {
                     {
                         Header: 'дата',
                         id: 'whoTakeDate',
-                        accessor: (originalRow, rowIndex) => {
+                        accessor: () => {
                             return <input className={classes.input}
                                           value={changeState.whoTakeDate}
                                           onChange={(e) => {
@@ -134,7 +134,7 @@ export const ResponseTableAnswer = (props) => {
                     {
                         Header: 'исходный №',
                         id: 'decisionNum',
-                        accessor: (originalRow, rowIndex) => {
+                        accessor: () => {
                             return <input className={classes.input}
                                           value={changeState.decisionNum}
                                           onChange={(e) => {
@@ -146,7 +146,7 @@ export const ResponseTableAnswer = (props) => {
                     {
                         Header: 'дата',
                         id: 'decisionDate',
-                        accessor: (originalRow, rowIndex) => {
+                        accessor: () => {
                             return <input className={classes.input}
                                           value={changeState.decisionDate}
                                           onChange={(e) => {
@@ -159,7 +159,7 @@ export const ResponseTableAnswer = (props) => {
         },
         {
             Header: "Сохранить",
-            accessor: (originalRow, rowIndex) => {
+            accessor: () => {
                 function onClickSave (){
                     respTableAnswer.postAnswer(changeState).then(stat => {
                         if (stat === 500)

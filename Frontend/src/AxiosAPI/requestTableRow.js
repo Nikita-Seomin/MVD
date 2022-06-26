@@ -8,10 +8,8 @@ export const requestTableRows = {
     },
 
     postRows (newRowJson) {
-        //console.log('newRow')
-        //console.log({...newRowJson, userName: 'root'})
         return instance.post(`requestTable/rowActions/post`, {...newRowJson, userName: 'root'})
-            .then(response => { console.log(response.data)  });
+            .then(response => { return response.data  });
     },
 
     updateRows (updateJsonData) {
